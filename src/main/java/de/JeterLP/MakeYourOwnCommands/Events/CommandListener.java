@@ -18,124 +18,26 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
  */
 public class CommandListener implements Listener {
 
-	Main plugin;
-	Calendar calender = Calendar.getInstance();
-	SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
+    Main plugin;
+    Calendar calender = Calendar.getInstance();
+    SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
 
-<<<<<<< HEAD:de/JeterLP/MakeYourOwnCommands/Events/CommandListener.java
-	/**
-	 * <p>
-	 * This is the constructor needed to get the Main class
-	 * </p>
-	 * 
-	 * @param p
-	 */
-	public CommandListener(Main p) {
-		plugin = p;
-	}
-
-	/**
-	 * <p>
-	 * This method checks if a Player types a command that an administrator has
-	 * registered and sends the Player the messages
-	 * </p>
-	 * 
-	 * @param event
-	 */
-	@EventHandler(priority = EventPriority.HIGHEST)
-	public void onCommand(PlayerCommandPreprocessEvent event) {
-		Player player = event.getPlayer();
-		String[] args = event.getMessage().split(" ");
-		for (String commandToCheck : plugin.getConfig()
-				.getConfigurationSection("commands").getKeys(false)) {
-			if (commandToCheck.equalsIgnoreCase(args[0])) {
-				String permission = plugin.getConfig().getString(
-						"commands." + args[0] + ".permission");
-				String sendto = this.plugin.getConfig().getString(
-						"commands." + args[0] + ".sendTo");
-				if (permission != null) {
-					if (player.hasPermission(permission)
-							|| player.hasPermission("myoc.*")) {
-						List<String> messages = plugin.getConfig()
-								.getStringList(
-										"commands." + args[0] + ".messages");
-						for (String com : messages) {
-							String command = com
-									.replaceAll("%sender%", player.getName())
-									.replaceAll("%realtime%",
-											format.format(new Date()))
-									.replaceAll(
-											"%onlineplayers%",
-											String.valueOf(Bukkit
-													.getOnlinePlayers().length))
-									.replaceAll("%world%",
-											player.getWorld().getName());
-							command = command.replaceAll("&((?i)[0-9a-fk-or])",
-									"§$1");
-							if ((sendto == null)
-									|| (sendto.equalsIgnoreCase("sender"))) {
-								player.sendMessage(command);
-							} else if ((sendto != null)
-									&& (sendto.equalsIgnoreCase("all"))) {
-								this.plugin.getServer().broadcastMessage(
-										command);
-							} else if ((sendto != null) && (sendto.equalsIgnoreCase("op"))) {
-								for (Player online : Bukkit.getOnlinePlayers()) {
-									online.sendMessage(command);
-								}
-							} 
-						}
-					} else {
-						player.sendMessage("§4You don't have permission.");
-					}
-					event.setCancelled(true);
-				}
-			}
-		}
-		for (String alias : this.plugin.getConfig()
-				.getConfigurationSection("aliases").getKeys(false)) {
-			if (alias.equalsIgnoreCase(args[0])) {
-				String command = this.plugin.getConfig().getString(
-						"aliases." + args[0]);
-				event.setMessage(command);
-			}
-		}
-		for (String tpcmds : this.plugin.getConfig()
-				.getConfigurationSection("Teleportations").getKeys(false)) {
-			if (tpcmds.equalsIgnoreCase(args[0])) {
-				String permission = plugin.getConfig().getString(
-						"Teleportations." + args[0] + ".permission");
-				if (player.hasPermission(permission)) {
-					String world = plugin.getConfig().getString(
-							"Teleportations." + args[0] + ".world");
-					double x = plugin.getConfig().getDouble(
-							"Teleportations." + args[0] + ".x");
-					double z = plugin.getConfig().getDouble(
-							"Teleportations." + args[0] + ".z");
-					double y = plugin.getConfig().getDouble(
-							"Teleportations." + args[0] + ".y");
-					player.teleport(new Location(Bukkit.getWorld(world), x, y,
-							z));
-					event.setCancelled(true);
-				} else {
-					player.sendMessage("§4You don't have permission.");
-				}
-			}
-		}
-	}
-=======
     /**
-     * <p>This is the constructor needed to get the Main class</p>
+     * <p>
+     * This is the constructor needed to get the Main class
+     * </p>
      *
      * @param p
      */
     public CommandListener(Main p) {
-        plugin = p;      
+        plugin = p;
     }
 
     /**
-     * <p>This method checks if a Player types a command that an administrator
-     * has registered and sends the Player the messages</p>
+     * <p>
+     * This method checks if a Player types a command that an administrator has
+     * registered and sends the Player the messages
+     * </p>
      *
      * @param event
      */
@@ -144,7 +46,7 @@ public class CommandListener implements Listener {
         Player player = event.getPlayer();
         String[] args = event.getMessage().split(" ");
         for (String commandToCheck : plugin.getConfig().getConfigurationSection("commands").getKeys(false)) {
-            if (commandToCheck.equalsIgnoreCase(args[0])) {                            
+            if (commandToCheck.equalsIgnoreCase(args[0])) {
                 String permission = plugin.getConfig().getString("commands." + args[0] + ".permission");
                 String sendto = this.plugin.getConfig().getString("commands." + args[0] + ".sendTo");
                 if (permission != null) {
@@ -157,6 +59,10 @@ public class CommandListener implements Listener {
                                 player.sendMessage(command);
                             } else if ((sendto != null) && (sendto.equalsIgnoreCase("all"))) {
                                 this.plugin.getServer().broadcastMessage(command);
+                            } else if ((sendto != null) && (sendto.equalsIgnoreCase("op"))) {
+                                for (Player online : Bukkit.getOnlinePlayers()) {
+                                    online.sendMessage(command);
+                                }
                             }
                         }
                     } else {
@@ -167,7 +73,7 @@ public class CommandListener implements Listener {
             }
         }
         for (String alias : this.plugin.getConfig().getConfigurationSection("aliases").getKeys(false)) {
-            if (alias.equalsIgnoreCase(args[0])) {              
+            if (alias.equalsIgnoreCase(args[0])) {
                 String command = this.plugin.getConfig().getString("aliases." + args[0]);
                 event.setMessage(command);
             }
@@ -188,5 +94,4 @@ public class CommandListener implements Listener {
             }
         }
     }
->>>>>>> [MOD] myoc is now fully using Maven.:src/main/java/de/JeterLP/MakeYourOwnCommands/Events/CommandListener.java
 }
