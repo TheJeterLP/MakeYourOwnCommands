@@ -1,0 +1,13 @@
+name: MakeYourOwnCommands
+version: 1.4.0
+description: Make Your Own Commands without learn how to program
+author: JeterLP
+website: http://dev.bukkit.org/server-mods/simple-info2
+
+main: de.JeterLP.MakeYourOwnCommands.Main
+
+commands:
+  myoc:
+    usage: /<command> <reload|list>
+    description: Main command
+    aliases: [sinfo]

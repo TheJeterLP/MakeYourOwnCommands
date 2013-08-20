@@ -1,0 +1,11 @@
+<<<<<<< HEAD
+*.class
+
+# Package Files #
+*.jar
+*.war
+*.ear
+*.md
+=======
+/target/
+>>>>>>> [MOD] myoc is now fully using Maven.

@@ -1,0 +1,63 @@
+######################################################################
+#You get more help at http://dev.bukkit.org/server-mods/simple-info2 #
+#You can use %sender% to get the name of the command-sender!         #
+#You can use %realtime% to get the machine-time of the server!       #
+#You can use %onlineplayers% to get how many players are online      #
+#You can use %world% to get the senders world                        #
+######################################################################
+
+#This is only for mcstats
+CommandsUsed: 0
+AliasesUsed: 0
+TeleportationsUsed: 0
+  
+#Enable this if you want to get notified when a new version is released!
+CheckForUpdates: true
+
+#This is the command-section
+commands:
+  /teamspeak:
+    sendTo: sender
+    permission: info.teamspeak
+    messages: 
+    - '&aHere is our Teamspeak IP!'
+    - '&bPlease use &c%sender% &bas your Teamspeak-name!'
+    - '&e1.2.12.345'
+  /vote:
+    sendTo: sender
+    permission: info.vote
+    messages:
+    - '&aPlease vote daily %sender%!'
+    - '&ehttp://myVote.url'
+  /website:
+    sendTo: sender
+    permission: info.website
+    messages: 
+    - '&aPlease visit daily our website to see news!'
+    - '&ehttp://myWebsite.url'
+  /gettime:
+    sendTo: all
+    permission: info.gettime
+    messages:
+    - '&bIt is &a%realtime% &bnow!'
+  /list:
+    sendTo: sender
+    permission: info.list
+    messages:
+    - '&c%onlineplayers% &eare currently online!'
+    
+#Here you can define aliases. Example: a Player types /s and then /spawn will be executed
+aliases:
+  /s: '/spawn'
+  /test: '/say I am a test!'
+  
+#Here you can make Teleport-commands
+Teleportations:
+  /tptest:
+    permission: 'myoc.tptest'
+    world: 'world'
+    x: 100.0
+    y: 100.0
+    z: 100.0
+    
+  
