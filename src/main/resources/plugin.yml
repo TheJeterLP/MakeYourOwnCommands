@@ -1,5 +1,5 @@
 name: MakeYourOwnCommands
-version: 1.4.0
+version: ${project.version}
 description: Make Your Own Commands without learn how to program
 author: JeterLP
 website: http://dev.bukkit.org/server-mods/simple-info2

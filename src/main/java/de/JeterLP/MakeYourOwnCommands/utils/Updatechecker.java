@@ -68,7 +68,7 @@ public class Updatechecker {
      */
     public void checkUpdate() {
         if (main.getConfig().getBoolean("CheckForUpdates", true)) {
-            currentversion = Integer.valueOf(main.getDescription().getVersion().replaceAll("\\.", ""));
+            currentversion = Integer.valueOf(main.getDescription().getVersion().replaceAll("\\.", "").replaceAll("-SNAPSHOT", ""));
             main.getServer().getScheduler().runTaskTimerAsynchronously(main, new Runnable() {
                 @Override
                 public void run() {

@@ -54,6 +54,9 @@ aliases:
 #Here you can make Teleport-commands
 Teleportations:
   /tptest:
+    #Here you can set a teleport-delay (in seconds)
+    delay: 3.0
+    message: '&eYou were teleported!'
     permission: 'myoc.tptest'
     world: 'world'
     x: 100.0

@@ -42,9 +42,9 @@ public class CommandListener implements Listener {
      * @param event
      */
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void onCommand(PlayerCommandPreprocessEvent event) {
-        Player player = event.getPlayer();
-        String[] args = event.getMessage().split(" ");
+    public void onCommand(final PlayerCommandPreprocessEvent event) {
+        final Player player = event.getPlayer();
+        final String[] args = event.getMessage().split(" ");
         for (String commandToCheck : plugin.getConfig().getConfigurationSection("commands").getKeys(false)) {
             if (commandToCheck.equalsIgnoreCase(args[0])) {
                 String permission = plugin.getConfig().getString("commands." + args[0] + ".permission");
@@ -57,11 +57,13 @@ public class CommandListener implements Listener {
                             command = command.replaceAll("&((?i)[0-9a-fk-or])", "§$1");
                             if ((sendto == null) || (sendto.equalsIgnoreCase("sender"))) {
                                 player.sendMessage(command);
-                            } else if ((sendto != null) && (sendto.equalsIgnoreCase("all"))) {
+                            } else if (sendto.equalsIgnoreCase("all")) {
                                 this.plugin.getServer().broadcastMessage(command);
-                            } else if ((sendto != null) && (sendto.equalsIgnoreCase("op"))) {
+                            } else if (sendto.equalsIgnoreCase("op")) {
                                 for (Player online : Bukkit.getOnlinePlayers()) {
-                                    online.sendMessage(command);
+                                    if (online.isOp()) {
+                                        online.sendMessage(command);
+                                    }
                                 }
                             }
                         }
@@ -82,12 +84,23 @@ public class CommandListener implements Listener {
             if (tpcmds.equalsIgnoreCase(args[0])) {
                 String permission = plugin.getConfig().getString("Teleportations." + args[0] + ".permission");
                 if (player.hasPermission(permission)) {
-                    String world = plugin.getConfig().getString("Teleportations." + args[0] + ".world");
-                    double x = plugin.getConfig().getDouble("Teleportations." + args[0] + ".x");
-                    double z = plugin.getConfig().getDouble("Teleportations." + args[0] + ".z");
-                    double y = plugin.getConfig().getDouble("Teleportations." + args[0] + ".y");
-                    player.teleport(new Location(Bukkit.getWorld(world), x, y, z));
-                    event.setCancelled(true);
+                    Long delay = plugin.getConfig().getLong("Teleportations." + args[0] + ".delay");
+                    try {
+                        event.setCancelled(true);
+                        plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+                            @Override
+                            public void run() {
+                                String world = plugin.getConfig().getString("Teleportations." + args[0] + ".world");
+                                double x = plugin.getConfig().getDouble("Teleportations." + args[0] + ".x");
+                                double z = plugin.getConfig().getDouble("Teleportations." + args[0] + ".z");
+                                double y = plugin.getConfig().getDouble("Teleportations." + args[0] + ".y");
+                                player.teleport(new Location(Bukkit.getWorld(world), x, y, z));
+                                player.sendMessage(plugin.getConfig().getString("Teleportations." + args[0] + ".message").replaceAll("&((?i)[0-9a-fk-or])", "§$1"));
+                            }
+                        },delay * 20);
+                    } catch (NumberFormatException e) {
+                        return;
+                    }
                 } else {
                     player.sendMessage("§4You don't have permission.");
                 }
