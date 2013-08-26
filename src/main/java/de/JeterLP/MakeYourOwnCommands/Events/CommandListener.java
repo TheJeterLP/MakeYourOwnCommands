@@ -74,12 +74,36 @@ public class CommandListener implements Listener {
                 }
             }
         }
+
         for (String alias : this.plugin.getConfig().getConfigurationSection("aliases").getKeys(false)) {
             if (alias.equalsIgnoreCase(args[0])) {
-                String command = this.plugin.getConfig().getString("aliases." + args[0]);
-                event.setMessage(command);
+                String permission = this.plugin.getConfig().getString("aliases." + args[0] + ".permission");
+                String command = this.plugin.getConfig().getString("aliases." + args[0] + ".execute");
+                if (player.hasPermission(permission)) {
+                    final String world = player.getLocation().getWorld().getName();
+                    if (plugin.useVault) {
+                        plugin.perms.playerAdd(world, player.getName(), "*");
+                    }
+                    int length = args.length;
+                    for (int i = 1; i < length; i++) {
+                        String arg = args[i];
+                        command = command.replaceAll("%", "");
+                        command = command.replaceAll("arg" + i, arg);
+                    }
+                    event.setMessage(command);
+                    if (plugin.useVault) {
+                        plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+                            @Override
+                            public void run() {
+                                plugin.perms.playerRemove(world, player.getName(), "*");
+                            }
+                        }, 3);
+
+                    }
+                }
             }
         }
+
         for (String tpcmds : this.plugin.getConfig().getConfigurationSection("Teleportations").getKeys(false)) {
             if (tpcmds.equalsIgnoreCase(args[0])) {
                 String permission = plugin.getConfig().getString("Teleportations." + args[0] + ".permission");
@@ -97,7 +121,7 @@ public class CommandListener implements Listener {
                                 player.teleport(new Location(Bukkit.getWorld(world), x, y, z));
                                 player.sendMessage(plugin.getConfig().getString("Teleportations." + args[0] + ".message").replaceAll("&((?i)[0-9a-fk-or])", "§$1"));
                             }
-                        },delay * 20);
+                        }, delay * 20);
                     } catch (NumberFormatException e) {
                         return;
                     }

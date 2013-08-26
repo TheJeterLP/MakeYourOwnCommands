@@ -6,7 +6,11 @@ import de.JeterLP.MakeYourOwnCommands.utils.ConfigFile;
 import de.JeterLP.MakeYourOwnCommands.utils.MYOClogger;
 import de.JeterLP.MakeYourOwnCommands.utils.MetricsChecker;
 import de.JeterLP.MakeYourOwnCommands.utils.Updatechecker;
+import net.milkbowl.vault.permission.Permission;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -19,6 +23,8 @@ public class Main extends JavaPlugin {
     private Updatechecker checker = null;
     private MetricsChecker mchecker = null;
     public FileConfiguration config;
+    public static Permission perms = null;
+    public boolean useVault = false;
 
     /**
      * This method loads the plugin
@@ -28,6 +34,13 @@ public class Main extends JavaPlugin {
         MYOClogger.log(MYOClogger.Type.INFO, "(by JeterLP" + " Version: " + getDescription().getVersion() + ") loading...");
         loader = new ConfigFile(this);
         loader.loadConfig();
+        if (this.checkVault()) {
+            setupPermissions();
+            this.useVault = true;
+            MYOClogger.log(MYOClogger.Type.INFO, "Vault was found! Successfully hooked into: " + perms.getName());
+        } else {
+            MYOClogger.log(MYOClogger.Type.INFO, "Vault was not found! Vault-support is disabled...");
+        }
         checker = new Updatechecker(this);
         checker.checkUpdate();
         mchecker = new MetricsChecker(this);
@@ -43,5 +56,19 @@ public class Main extends JavaPlugin {
     @Override
     public void onDisable() {
         MYOClogger.log(MYOClogger.Type.INFO, "(by JeterLP" + " Version: " + getDescription().getVersion() + ") is now disabled.");
+    }
+
+    private boolean setupPermissions() {
+        RegisteredServiceProvider<Permission> rsp = getServer().getServicesManager().getRegistration(Permission.class);
+        perms = rsp.getProvider();
+        return perms != null;
+    }
+
+    public boolean checkVault() {
+        Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("Vault");
+        if (plugin == null) {
+            return false;
+        }
+        return true;
     }
 }

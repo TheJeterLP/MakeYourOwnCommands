@@ -57,7 +57,7 @@ public class myoc implements CommandExecutor {
                     sender.sendMessage("§eMakeYourOwnCommands: §cAliases:");
                     for (String alias : main.getConfig().getConfigurationSection("aliases").getKeys(false)) {
                         sender.sendMessage("§a" + alias + ":");
-                        sender.sendMessage("  §e" + main.getConfig().getString("aliases." + alias));
+                        sender.sendMessage("  §e" + main.getConfig().getString("aliases." + alias + ".execute"));
                     }
                     sender.sendMessage("§eMakeYourOwnCommands: §cTeleportations:");
                     for (String tpcmd : main.getConfig().getConfigurationSection("Teleportations").getKeys(false)) {

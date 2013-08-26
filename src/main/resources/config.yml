@@ -4,13 +4,16 @@
 #You can use %realtime% to get the machine-time of the server!       #
 #You can use %onlineplayers% to get how many players are online      #
 #You can use %world% to get the senders world                        #
+#                                                                    #
+#ONLY IN THE ALISES!!!                                               #
+#You can use %argNUMBER% to use the given argument.                  #
+#Example:                                                            #
+# /teleport:                                                         #
+#    permission: 'aliases.tp'                                        #
+#    execute: '/tp %arg1% %arg2%'                                    #
 ######################################################################
 
-#This is only for mcstats
-CommandsUsed: 0
-AliasesUsed: 0
-TeleportationsUsed: 0
-  
+
 #Enable this if you want to get notified when a new version is released!
 CheckForUpdates: true
 
@@ -48,8 +51,12 @@ commands:
     
 #Here you can define aliases. Example: a Player types /s and then /spawn will be executed
 aliases:
-  /s: '/spawn'
-  /test: '/say I am a test!'
+  /s: 
+    permission: 'aliases.s'
+    execute: '/spawn'
+  /test: 
+    permission: 'aliases.test'
+    execute: '/say I am a test!'
   
 #Here you can make Teleport-commands
 Teleportations:
