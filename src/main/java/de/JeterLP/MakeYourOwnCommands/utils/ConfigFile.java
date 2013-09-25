@@ -2,8 +2,6 @@ package de.JeterLP.MakeYourOwnCommands.utils;
 
 import de.JeterLP.MakeYourOwnCommands.Main;
 import java.io.File;
-import java.io.IOException;
-import java.util.Scanner;
 import org.bukkit.configuration.file.FileConfiguration;
 
 /**
@@ -13,9 +11,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 public class ConfigFile {
 
     private Main main;
-    private File cmds = new File("plugins/MakeYourOwnCommands/CommandsUsed.txt");
-    private File aliases = new File("plugins/MakeYourOwnCommands/AliasesUsed.txt");
-    private File tps = new File("plugins/MakeYourOwnCommands/TeleportsUsed.txt");
 
     /**
      * <p>This is the constructor needed to get the Main class</p>
@@ -40,8 +35,6 @@ public class ConfigFile {
         }
 
     }
-
-    
 
     public FileConfiguration getConfig() {
         return main.getConfig();

@@ -1,6 +1,5 @@
 package de.JeterLP.MakeYourOwnCommands.utils;
 
-import de.JeterLP.MakeYourOwnCommands.Main;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.bukkit.Bukkit;

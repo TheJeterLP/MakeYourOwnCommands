@@ -69,6 +69,7 @@ public class CommandListener implements Listener {
                         }
                     } else {
                         player.sendMessage("§4You don't have permission.");
+                        event.setCancelled(true);
                     }
                     event.setCancelled(true);
                 }
@@ -118,7 +119,10 @@ public class CommandListener implements Listener {
                                 double x = plugin.getConfig().getDouble("Teleportations." + args[0] + ".x");
                                 double z = plugin.getConfig().getDouble("Teleportations." + args[0] + ".z");
                                 double y = plugin.getConfig().getDouble("Teleportations." + args[0] + ".y");
-                                player.teleport(new Location(Bukkit.getWorld(world), x, y, z));
+                                float yaw = Float.valueOf(plugin.getConfig().getString("Teleportations." + args[0] + ".yaw"));
+                                float pitch = Float.valueOf(plugin.getConfig().getString("Teleportations." + args[0] + ".pitch"));
+                                Location loc = new Location(Bukkit.getWorld(world), x, y, z, yaw, pitch);
+                                player.teleport(loc);
                                 player.sendMessage(plugin.getConfig().getString("Teleportations." + args[0] + ".message").replaceAll("&((?i)[0-9a-fk-or])", "§$1"));
                             }
                         }, delay * 20);

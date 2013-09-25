@@ -32,7 +32,6 @@ public class MetricsChecker {
             Metrics metrics = new Metrics(main);
             metrics.start();
         } catch (IOException ex) {
-            MYOClogger.log(MYOClogger.Type.ERROR, ex.getMessage());
         }
 
     }

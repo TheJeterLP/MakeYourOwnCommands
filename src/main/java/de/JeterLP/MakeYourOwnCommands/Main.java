@@ -5,7 +5,7 @@ import de.JeterLP.MakeYourOwnCommands.commands.myoc;
 import de.JeterLP.MakeYourOwnCommands.utils.ConfigFile;
 import de.JeterLP.MakeYourOwnCommands.utils.MYOClogger;
 import de.JeterLP.MakeYourOwnCommands.utils.MetricsChecker;
-import de.JeterLP.MakeYourOwnCommands.utils.Updatechecker;
+import de.JeterLP.MakeYourOwnCommands.utils.Updater;
 import net.milkbowl.vault.permission.Permission;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -20,7 +20,6 @@ public class Main extends JavaPlugin {
 
     public final String prefix = "[MakeYourOwnCommands] ";
     private ConfigFile loader = null;
-    private Updatechecker checker = null;
     private MetricsChecker mchecker = null;
     public FileConfiguration config;
     public static Permission perms = null;
@@ -34,6 +33,9 @@ public class Main extends JavaPlugin {
         MYOClogger.log(MYOClogger.Type.INFO, "(by JeterLP" + " Version: " + getDescription().getVersion() + ") loading...");
         loader = new ConfigFile(this);
         loader.loadConfig();
+        if (getConfig().getBoolean("CheckForUpdates")) {
+            Updater updater = new Updater(this, "simple-info2", this.getFile(), Updater.UpdateType.DEFAULT, false);
+        }
         if (this.checkVault()) {
             setupPermissions();
             this.useVault = true;
@@ -41,8 +43,6 @@ public class Main extends JavaPlugin {
         } else {
             MYOClogger.log(MYOClogger.Type.INFO, "Vault was not found! Vault-support is disabled...");
         }
-        checker = new Updatechecker(this);
-        checker.checkUpdate();
         mchecker = new MetricsChecker(this);
         mchecker.checkMetrics();
         getCommand("myoc").setExecutor(new myoc(this));
