@@ -1,11 +1,11 @@
 package de.JeterLP.MakeYourOwnCommands.Events;
 
 import de.JeterLP.MakeYourOwnCommands.Main;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
+import de.JeterLP.MakeYourOwnCommands.WrongTypeException;
+import de.JeterLP.MakeYourOwnCommands.utils.CommandUtils;
 import java.util.List;
-import org.bukkit.Bukkit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -16,21 +16,13 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 /**
  * @author JeterLP
  */
-public class CommandListener implements Listener {
+public final class CommandListener implements Listener {
 
-    Main plugin;
-    Calendar calender = Calendar.getInstance();
-    SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
+    private Main main;
+    private CommandUtils utils;
 
-    /**
-     * <p>
-     * This is the constructor needed to get the Main class
-     * </p>
-     *
-     * @param p
-     */
-    public CommandListener(Main p) {
-        plugin = p;
+    public CommandListener(Main main) {
+        this.main = main;
     }
 
     /**
@@ -42,97 +34,96 @@ public class CommandListener implements Listener {
      * @param event
      */
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void onCommand(final PlayerCommandPreprocessEvent event) {
+    public void onCommand(final PlayerCommandPreprocessEvent event) throws WrongTypeException {
+        if (event.isCancelled()) {
+            return;
+        }
+        utils = new CommandUtils(main);
         final Player player = event.getPlayer();
         final String[] args = event.getMessage().split(" ");
-        for (String commandToCheck : plugin.getConfig().getConfigurationSection("commands").getKeys(false)) {
-            if (commandToCheck.equalsIgnoreCase(args[0])) {
-                String permission = plugin.getConfig().getString("commands." + args[0] + ".permission");
-                String sendto = this.plugin.getConfig().getString("commands." + args[0] + ".sendTo");
-                if (permission != null) {
-                    if (player.hasPermission(permission) || player.hasPermission("myoc.*")) {
-                        List<String> messages = plugin.getConfig().getStringList("commands." + args[0] + ".messages");
-                        for (String com : messages) {
-                            String command = com.replaceAll("%sender%", player.getName()).replaceAll("%realtime%", format.format(new Date())).replaceAll("%onlineplayers%", String.valueOf(Bukkit.getOnlinePlayers().length)).replaceAll("%world%", player.getWorld().getName());
-                            command = command.replaceAll("&((?i)[0-9a-fk-or])", "§$1");
-                            if ((sendto == null) || (sendto.equalsIgnoreCase("sender"))) {
-                                player.sendMessage(command);
-                            } else if (sendto.equalsIgnoreCase("all")) {
-                                this.plugin.getServer().broadcastMessage(command);
-                            } else if (sendto.equalsIgnoreCase("op")) {
-                                for (Player online : Bukkit.getOnlinePlayers()) {
-                                    if (online.isOp()) {
-                                        online.sendMessage(command);
-                                    }
-                                }
-                            }
-                        }
-                    } else {
-                        player.sendMessage("§4You don't have permission.");
-                        event.setCancelled(true);
-                    }
-                    event.setCancelled(true);
-                }
-            }
+        final String command = args[0];
+
+        if (!utils.isRegistered(command)) {
+            return;
         }
 
-        for (String alias : this.plugin.getConfig().getConfigurationSection("aliases").getKeys(false)) {
-            if (alias.equalsIgnoreCase(args[0])) {
-                String permission = this.plugin.getConfig().getString("aliases." + args[0] + ".permission");
-                String command = this.plugin.getConfig().getString("aliases." + args[0] + ".execute");
-                if (player.hasPermission(permission)) {
-                    final String world = player.getLocation().getWorld().getName();
-                    if (plugin.useVault) {
-                        plugin.perms.playerAdd(world, player.getName(), "*");
-                    }
-                    int length = args.length;
-                    for (int i = 1; i < length; i++) {
-                        String arg = args[i];
-                        command = command.replaceAll("%", "");
-                        command = command.replaceAll("arg" + i, arg);
-                    }
-                    event.setMessage(command);
-                    if (plugin.useVault) {
-                        plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
-                            @Override
-                            public void run() {
-                                plugin.perms.playerRemove(world, player.getName(), "*");
-                            }
-                        }, 3);
+        String type = utils.getType(command);
+        String permission = utils.getPermission(command);
+        String noperm = utils.getNoPermissionMessage();
 
-                    }
-                }
-            }
+        if (!player.hasPermission(permission)) {
+            player.sendMessage(noperm);
+            event.setCancelled(true);
+            return;
         }
 
-        for (String tpcmds : this.plugin.getConfig().getConfigurationSection("Teleportations").getKeys(false)) {
-            if (tpcmds.equalsIgnoreCase(args[0])) {
-                String permission = plugin.getConfig().getString("Teleportations." + args[0] + ".permission");
-                if (player.hasPermission(permission)) {
-                    Long delay = plugin.getConfig().getLong("Teleportations." + args[0] + ".delay");
-                    try {
-                        event.setCancelled(true);
-                        plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
-                            @Override
-                            public void run() {
-                                String world = plugin.getConfig().getString("Teleportations." + args[0] + ".world");
-                                double x = plugin.getConfig().getDouble("Teleportations." + args[0] + ".x");
-                                double z = plugin.getConfig().getDouble("Teleportations." + args[0] + ".z");
-                                double y = plugin.getConfig().getDouble("Teleportations." + args[0] + ".y");
-                                float yaw = Float.valueOf(plugin.getConfig().getString("Teleportations." + args[0] + ".yaw"));
-                                float pitch = Float.valueOf(plugin.getConfig().getString("Teleportations." + args[0] + ".pitch"));
-                                Location loc = new Location(Bukkit.getWorld(world), x, y, z, yaw, pitch);
-                                player.teleport(loc);
-                                player.sendMessage(plugin.getConfig().getString("Teleportations." + args[0] + ".message").replaceAll("&((?i)[0-9a-fk-or])", "§$1"));
-                            }
-                        }, delay * 20);
-                    } catch (NumberFormatException e) {
-                        return;
-                    }
-                } else {
-                    player.sendMessage("§4You don't have permission.");
+        if (type.equalsIgnoreCase("alias")) {
+            String execute = "";
+            try {
+                execute = utils.getExecute(command, player, args);
+            } catch (WrongTypeException ex) {
+                Logger.getLogger(CommandListener.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            player.performCommand(execute);
+            sendMessages(command, args, player);
+            event.setCancelled(true);
+        } else if (type.equalsIgnoreCase("message")) {
+            sendMessages(command, args, player);
+            event.setCancelled(true);
+        } else if (type.equalsIgnoreCase("teleport")) {
+            final Location loc = utils.getTargetLocation(command);
+            double delay = utils.getDelay(command);
+            sendMessages(command, args, player);
+            main.getServer().getScheduler().scheduleSyncDelayedTask(main, new Runnable() {
+                @Override
+                public void run() {
+                    player.teleport(loc);
+                }
+            }, (long) (delay * 20.0));
+            event.setCancelled(true);
+        } else {
+            player.sendMessage("T1");
+        }
+    }
+
+    private void sendMessages(String command, String[] args, Player player) {
+        final String permission = utils.getPermission(command);
+        final String sendto = utils.getSendTo(command);
+        final List<String> messages = utils.getMessages(command, args, player);
+        if (sendto.equalsIgnoreCase("sender")) {
+            for (String s : messages) {
+                s = utils.replaceValues(s, player, args);
+                player.sendMessage(s);
+            }
+        } else if (sendto.equalsIgnoreCase("online")) {
+            for (Player p : main.getServer().getOnlinePlayers()) {
+                for (String s : messages) {
+                    s = utils.replaceValues(command, player, args);
+                    p.sendMessage(s);
                 }
             }
+        } else if (sendto.equalsIgnoreCase("op")) {
+            for (Player p : main.getServer().getOnlinePlayers()) {
+                if (!p.isOp()) {
+                    return;
+                }
+                for (String s : messages) {
+                    s = utils.replaceValues(command, player, args);
+                    p.sendMessage(s);
+                }
+            }
+        } else if (sendto.equalsIgnoreCase("permission")) {
+            for (Player p : main.getServer().getOnlinePlayers()) {
+                if (!p.hasPermission(permission)) {
+                    return;
+                }
+                for (String s : messages) {
+                    s = utils.replaceValues(command, player, args);
+                    p.sendMessage(s);
+                }
+            }
+        } else {
+            player.sendMessage("t");
         }
     }
 }

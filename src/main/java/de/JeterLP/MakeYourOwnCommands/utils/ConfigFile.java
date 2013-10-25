@@ -3,6 +3,7 @@ package de.JeterLP.MakeYourOwnCommands.utils;
 import de.JeterLP.MakeYourOwnCommands.Main;
 import java.io.File;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 
 /**
  *
@@ -12,11 +13,6 @@ public class ConfigFile {
 
     private Main main;
 
-    /**
-     * <p>This is the constructor needed to get the Main class</p>
-     *
-     * @param main
-     */
     public ConfigFile(Main main) {
         this.main = main;
     }
@@ -24,20 +20,24 @@ public class ConfigFile {
     /**
      * <p>This method loads the config of this plugin</p>
      */
-    public void loadConfig() {
-        if (new File("plugins/MakeYourOwnCommands/config.yml").exists()) {
-            main.config = main.getConfig();
-            main.config.options().copyDefaults(true);
+    public boolean loadConfig() {
+        File cfg = new File("plugins/MakeYourOwnCommands/config.yml");
+        main.getDataFolder().mkdirs();
+        YamlConfiguration config = YamlConfiguration.loadConfiguration(cfg);
+        if (cfg.exists()) {
+            if (config.getInt("Version") != 1) {
+                return false;
+            }
+            main.getConfig().options().copyDefaults(true);
+            return true;
         } else {
             main.saveDefaultConfig();
-            main.config = main.getConfig();
-            main.config.options().copyDefaults(true);
+            main.getConfig().options().copyDefaults(true);
+            return true;
         }
-
     }
 
     public FileConfiguration getConfig() {
         return main.getConfig();
     }
-
 }

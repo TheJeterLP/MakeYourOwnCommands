@@ -8,7 +8,6 @@ import de.JeterLP.MakeYourOwnCommands.utils.MetricsChecker;
 import de.JeterLP.MakeYourOwnCommands.utils.Updater;
 import net.milkbowl.vault.permission.Permission;
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -19,9 +18,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class Main extends JavaPlugin {
 
     public final String prefix = "[MakeYourOwnCommands] ";
-    private ConfigFile loader = null;
+    private ConfigFile loader;
     private MetricsChecker mchecker = null;
-    public FileConfiguration config;
     public static Permission perms = null;
     public boolean useVault = false;
 
@@ -32,7 +30,11 @@ public class Main extends JavaPlugin {
     public void onEnable() {
         MYOClogger.log(MYOClogger.Type.INFO, "(by JeterLP" + " Version: " + getDescription().getVersion() + ") loading...");
         loader = new ConfigFile(this);
-        loader.loadConfig();
+        if (!loader.loadConfig()) {
+            MYOClogger.log(MYOClogger.Type.ERROR, "Please let the plugin generate a new config for you.");
+            getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
         if (getConfig().getBoolean("CheckForUpdates")) {
             Updater updater = new Updater(this, "simple-info2", this.getFile(), Updater.UpdateType.DEFAULT, false);
         }

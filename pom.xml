@@ -6,74 +6,17 @@
     <name>MakeYourOwnCommands</name>
     <inceptionYear>2013</inceptionYear>
     <description></description>
-    <licenses>
-        <license>
-            <name>GNU GPL v3</name>
-            <url>http://www.gnu.org/licenses/gpl.txt</url>
-        </license>
-    </licenses>
-    <developers>
-        <developer>
-            <id>TheJeterLP</id>
-            <name>Joey Peter</name>
-            <email>jeterlp@dmincmd.com</email>
-            <roles>
-                <role>developer</role>
-            </roles>
-        </developer>
-    </developers>
+    <distributionManagement>
+        <repository>
+            <id>repo</id>
+            <url>ftp://admincmd.com/web/maven-repo</url>
+        </repository>
+    </distributionManagement>
     <build>
-
         <defaultGoal>clean install</defaultGoal>
-        <finalName>MakeYourOwnCommands</finalName>
+        <finalName>MakeYourOwnCommands ${project.version}</finalName>
         <sourceDirectory>${basedir}/src/main/java/</sourceDirectory>
-
-        <!-- Resources -->
-        <resources>
-            <resource>
-                <targetPath>.</targetPath>
-                <filtering>true</filtering>
-                <directory>${basedir}/src/main/resources/</directory>
-                <includes>
-                    <include>**/*.properties</include>
-                    <include>items.csv</include>
-                    <include>**/*.txt</include>
-                    <include>**/*.yml</include>
-                </includes>
-            </resource>
-            <resource>
-                <targetPath>.</targetPath>
-                <filtering>false</filtering>
-                <directory>${basedir}/src/main/resources/</directory>
-            </resource>
-        </resources>
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>2.4</version>
-                <configuration>
-                    <archive>
-                        <manifestEntries>
-                            <Implementation-Title>MakeYourOwnCommands</Implementation-Title>
-                            <Implementation-Version>${project.version}</Implementation-Version>
-                            <Implementation-Vendor>TheJeterLP</Implementation-Vendor>
-                            <Specification-Title>MakeYourOwnCommands</Specification-Title>
-                            <Specification-Version>${project.version}</Specification-Version>
-                            <Specification-Vendor>TheJeterLP</Specification-Vendor>
-                        </manifestEntries>
-                        <addMavenDescriptor>true</addMavenDescriptor>
-                        <pomPropertiesFile>true</pomPropertiesFile>
-                        <manifest>
-                            <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
-                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-                            <addClasspath>false</addClasspath>
-                            <classpathLayoutType>custom</classpathLayoutType>
-                            <customClasspathLayout>../lib/$${artifact.artifactId}.$${artifact.extension}</customClasspathLayout>
-                        </manifest>
-                    </archive>
-                </configuration>
-            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -84,46 +27,31 @@
                     <target>1.6</target>
                 </configuration>
             </plugin>
-
-            <!-- <plugin> -->
-            <!-- <groupId>com.github.github</groupId> -->
-            <!-- <artifactId>site-maven-plugin</artifactId> -->
-            <!-- <version>0.5</version> -->
-            <!-- <configuration> -->
-            <!-- <message>Building site for ${project.version}</message> -->
-            <!-- </configuration> -->
-            <!-- <executions> -->
-            <!-- <execution> -->
-            <!-- <goals> -->
-            <!-- <goal>site</goal> -->
-            <!-- </goals> -->
-            <!-- <phase>site</phase> -->
-            <!-- </execution> -->
-            <!-- </executions> -->
-            <!-- </plugin> -->
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>2.1</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                        <configuration>
-                            <minimizeJar>false</minimizeJar>
-                            <artifactSet>
-                                <includes>
-                                    <include>net.sf.opencsv:opencsv</include>                                    
-                                </includes>	
-                            </artifactSet>
-                        </configuration>
-                    </execution>
-                </executions>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.9.1</version>
+                <configuration>
+                </configuration>
             </plugin>
         </plugins>
+        <resources>
+            <resource>
+                <targetPath>.</targetPath>
+                <filtering>true</filtering>
+                <directory>${basedir}/src/main/resources/</directory>
+                <includes>                   
+                    <include>**/*.yml</include>
+                </includes>
+            </resource>
+        </resources>
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-ftp</artifactId>
+                <version>1.0-alpha-6</version>
+            </extension>
+        </extensions>
     </build>
     <repositories>
         <repository>
@@ -133,14 +61,6 @@
             <url>http://www.gestdown.info:8888/nexus/content/groups/BukkitDev/</url>
         </repository>
     </repositories>
-    <pluginRepositories>
-        <pluginRepository>
-            <snapshots />
-            <id>BukkitDev</id>
-            <name>BukkitDev</name>
-            <url>http://www.gestdown.info:8888/nexus/content/groups/BukkitDev/</url>
-        </pluginRepository>
-    </pluginRepositories>
     <dependencies>
         <dependency>
             <groupId>org.bukkit</groupId>
@@ -161,6 +81,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <bukkit.version>1.6.2-R0.2-SNAPSHOT</bukkit.version>
+        <config.version>1</config.version>
     </properties>
-    <version>1.4.4</version>
+    <version>1.5.1-SNAPSHOT</version>
 </project>

@@ -4,66 +4,27 @@
 #You can use %realtime% to get the machine-time of the server!       #
 #You can use %onlineplayers% to get how many players are online      #
 #You can use %world% to get the senders world                        #
-#                                                                    #
-#ONLY IN THE ALISES!!!                                               #
-#You can use %argNUMBER% to use the given argument.                  #
-#Example:                                                            #
-# /teleport:                                                         #
-#    permission: 'aliases.tp'                                        #
-#    execute: '/tp %arg1% %arg2%'                                    #
 ######################################################################
 
 
 #Enable this if you want to get notified when a new version is released!
 CheckForUpdates: true
 
-#This is the command-section
-commands:
-  /teamspeak:
-    sendTo: sender
-    permission: info.teamspeak
-    messages: 
-    - '&aHere is our Teamspeak IP!'
-    - '&bPlease use &c%sender% &bas your Teamspeak-name!'
-    - '&e1.2.12.345'
-  /vote:
-    sendTo: sender
-    permission: info.vote
-    messages:
-    - '&aPlease vote daily %sender%!'
-    - '&ehttp://myVote.url'
-  /website:
-    sendTo: sender
-    permission: info.website
-    messages: 
-    - '&aPlease visit daily our website to see news!'
-    - '&ehttp://myWebsite.url'
-  /gettime:
-    sendTo: all
-    permission: info.gettime
-    messages:
-    - '&bIt is &a%realtime% &bnow!'
-  /list:
-    sendTo: sender
-    permission: info.list
-    messages:
-    - '&c%onlineplayers% &eare currently online!'
-    
-#Here you can define aliases. Example: a Player types /s and then /spawn will be executed
-aliases:
-  /s: 
-    permission: 'aliases.s'
-    execute: '/spawn'
-  /test: 
-    permission: 'aliases.test'
-    execute: '/say I am a test!'
+#Do not change
+Version: ${config.version}
+
+NoPermissionMessage: '&cYou dont have permission to do this.'
+
+Commands:
   
-#Here you can make Teleport-commands
-Teleportations:
   /tptest:
-    #Here you can set a teleport-delay (in seconds)
+    mode: 'teleport'
+    permission: 'myoc.tpest'
+    sendTo: 'sender'
+    messages: 
+    - '&cTeleporting to coords...'
+    - '&ePlease wait for the timer...'
     delay: 3.0
-    message: '&eYou were teleported!'
     permission: 'myoc.tptest'
     world: 'world'
     x: 100.0
@@ -71,5 +32,21 @@ Teleportations:
     z: 100.0
     pitch: 0.0
     yaw: 0.0
+    
+  /msgtest:
+    mode: 'message'
+    permission: 'myoc.msgtest'
+    sendTo: 'sender'
+    messages: 
+    - '&aThis is only a test!'
+    
+  /alias:
+    mode: 'alias'
+    permission: 'myoc.alias'
+    sendTo: 'sender'
+    messages: 
+    - '&cExecuting /say I am a test'
+    execute: '/say I am a test!'
+    
     
   

@@ -361,7 +361,6 @@ public class Updater {
             buff = null;
         } catch (Exception ex) {
             ex.printStackTrace();
-            plugin.getLogger().warning("The auto-updater tried to contact dev.bukkit.org, but was unsuccessful.");
             result = Updater.UpdateResult.FAIL_DBO;
             return null;
         }
@@ -474,7 +473,6 @@ public class Updater {
                 return false;
             }
         } catch (XMLStreamException e) {
-            plugin.getLogger().warning("Could not reach dev.bukkit.org for update checking. Is it offline?");
             return false;
         }
     }
@@ -486,7 +484,6 @@ public class Updater {
         try {
             return url.openStream();
         } catch (IOException e) {
-            plugin.getLogger().warning("Could not reach BukkitDev file stream for update checking. Is dev.bukkit.org offline?");
             return null;
         }
     }

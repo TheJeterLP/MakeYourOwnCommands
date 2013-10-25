@@ -1,6 +1,7 @@
 package de.JeterLP.MakeYourOwnCommands.commands;
 
 import de.JeterLP.MakeYourOwnCommands.Main;
+import de.JeterLP.MakeYourOwnCommands.utils.CommandUtils;
 import java.util.List;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -15,6 +16,7 @@ import org.bukkit.entity.Player;
 public class myoc implements CommandExecutor {
 
     private Main main;
+    private CommandUtils utils;
 
     public myoc(Main main) {
         this.main = main;
@@ -32,6 +34,7 @@ public class myoc implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String commandlabel, String[] args) {
         if (cmd.getName().equalsIgnoreCase("myoc")) {
+            utils = new CommandUtils(main);
             if (args.length == 0) {
                 sender.sendMessage("§e " + main.prefix + "by §aJeterLP §eversion: §c" + main.getDescription().getVersion());
                 return true;
@@ -48,22 +51,13 @@ public class myoc implements CommandExecutor {
             } else if (args[0].equalsIgnoreCase("list")) {
                 if (sender.hasPermission("myoc.list") || sender.hasPermission("myoc.*")) {
                     sender.sendMessage("§eMakeYourOwnCommands: §cCommands:");
-                    for (String commands : main.getConfig().getConfigurationSection("commands").getKeys(false)) {
-                        List<String> messages = main.getConfig().getStringList("commands." + commands + ".messages");
+                    for (String commands : main.getConfig().getConfigurationSection("Commands").getKeys(false)) {
+                        List<String> messages = main.getConfig().getStringList("Commands." + commands + ".messages");
                         sender.sendMessage("§a" + commands + ":");
                         for (int i = 0; i < messages.size(); i++) {
                             sender.sendMessage("  " + messages.get(i).replaceAll("&((?i)[0-9a-fk-or])", "§$1"));
 
                         }
-                    }
-                    sender.sendMessage("§eMakeYourOwnCommands: §cAliases:");
-                    for (String alias : main.getConfig().getConfigurationSection("aliases").getKeys(false)) {
-                        sender.sendMessage("§a" + alias + ":");
-                        sender.sendMessage("  §e" + main.getConfig().getString("aliases." + alias + ".execute"));
-                    }
-                    sender.sendMessage("§eMakeYourOwnCommands: §cTeleportations:");
-                    for (String tpcmd : main.getConfig().getConfigurationSection("Teleportations").getKeys(false)) {
-                        sender.sendMessage("§a" + tpcmd);
                     }
                     return true;
                 } else {
@@ -81,7 +75,7 @@ public class myoc implements CommandExecutor {
                     return true;
                 }
             } else {
-                sender.sendMessage("§cUsage: §e/myoc <reload|list>");
+                sender.sendMessage("§cUsage: §e/myoc <reload|list|location>");
                 return true;
             }
         }
