@@ -28,28 +28,35 @@ public class Main extends JavaPlugin {
      */
     @Override
     public void onEnable() {
-        MYOClogger.log(MYOClogger.Type.INFO, "(by JeterLP" + " Version: " + getDescription().getVersion() + ") loading...");
-        loader = new ConfigFile(this);
-        if (!loader.loadConfig()) {
-            MYOClogger.log(MYOClogger.Type.ERROR, "Please let the plugin generate a new config for you.");
-            getServer().getPluginManager().disablePlugin(this);
-            return;
-        }
-        if (getConfig().getBoolean("CheckForUpdates")) {
-            Updater updater = new Updater(this, "simple-info2", this.getFile(), Updater.UpdateType.DEFAULT, false);
-        }
-        if (this.checkVault()) {
-            setupPermissions();
-            this.useVault = true;
-            MYOClogger.log(MYOClogger.Type.INFO, "Vault was found! Successfully hooked into: " + perms.getName());
-        } else {
-            MYOClogger.log(MYOClogger.Type.INFO, "Vault was not found! Vault-support is disabled...");
-        }
-        mchecker = new MetricsChecker(this);
-        mchecker.checkMetrics();
-        getCommand("myoc").setExecutor(new myoc(this));
-        getServer().getPluginManager().registerEvents(new CommandListener(this), this);
-        MYOClogger.log(MYOClogger.Type.INFO, "(by JeterLP" + " Version: " + getDescription().getVersion() + ") is now enabled.");
+	MYOClogger.log(MYOClogger.Type.INFO, "(by JeterLP" + " Version: "
+		+ getDescription().getVersion() + ") loading...");
+	loader = new ConfigFile(this);
+	if (!loader.loadConfig()) {
+	    MYOClogger.log(MYOClogger.Type.ERROR,
+		    "Please let the plugin generate a new config for you.");
+	    getServer().getPluginManager().disablePlugin(this);
+	    return;
+	}
+	Updater updater = new Updater(this, 54353, getFile(),
+		Updater.UpdateType.DEFAULT, true);
+	if (this.checkVault()) {
+	    setupPermissions();
+	    this.useVault = true;
+	    MYOClogger.log(
+		    MYOClogger.Type.INFO,
+		    "Vault was found! Successfully hooked into: "
+			    + perms.getName());
+	} else {
+	    MYOClogger.log(MYOClogger.Type.INFO,
+		    "Vault was not found! Vault-support is disabled...");
+	}
+	mchecker = new MetricsChecker(this);
+	mchecker.checkMetrics();
+	getCommand("myoc").setExecutor(new myoc(this));
+	getServer().getPluginManager().registerEvents(
+		new CommandListener(this), this);
+	MYOClogger.log(MYOClogger.Type.INFO, "(by JeterLP" + " Version: "
+		+ getDescription().getVersion() + ") is now enabled.");
     }
 
     /**
@@ -57,20 +64,23 @@ public class Main extends JavaPlugin {
      */
     @Override
     public void onDisable() {
-        MYOClogger.log(MYOClogger.Type.INFO, "(by JeterLP" + " Version: " + getDescription().getVersion() + ") is now disabled.");
+	MYOClogger.log(MYOClogger.Type.INFO, "(by JeterLP" + " Version: "
+		+ getDescription().getVersion() + ") is now disabled.");
     }
 
     private boolean setupPermissions() {
-        RegisteredServiceProvider<Permission> rsp = getServer().getServicesManager().getRegistration(Permission.class);
-        perms = rsp.getProvider();
-        return perms != null;
+	RegisteredServiceProvider<Permission> rsp = getServer()
+		.getServicesManager().getRegistration(Permission.class);
+	perms = rsp.getProvider();
+	return perms != null;
     }
 
     public boolean checkVault() {
-        Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("Vault");
-        if (plugin == null) {
-            return false;
-        }
-        return true;
+	Plugin plugin = Bukkit.getServer().getPluginManager()
+		.getPlugin("Vault");
+	if (plugin == null) {
+	    return false;
+	}
+	return true;
     }
 }
