@@ -18,7 +18,7 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
  */
 public final class CommandListener implements Listener {
 
-    private Main main;
+    private final Main main;
     private CommandUtils utils;
 
     public CommandListener(Main main) {
@@ -81,9 +81,7 @@ public final class CommandListener implements Listener {
                 }
             }, (long) (delay * 20.0));
             event.setCancelled(true);
-        } else {
-            player.sendMessage("T1");
-        }
+        } 
     }
 
     private void sendMessages(String command, String[] args, Player player) {
@@ -98,32 +96,32 @@ public final class CommandListener implements Listener {
         } else if (sendto.equalsIgnoreCase("online")) {
             for (Player p : main.getServer().getOnlinePlayers()) {
                 for (String s : messages) {
-                    s = utils.replaceValues(command, player, args);
+                    s = utils.replaceValues(s, player, args);
                     p.sendMessage(s);
                 }
             }
         } else if (sendto.equalsIgnoreCase("op")) {
             for (Player p : main.getServer().getOnlinePlayers()) {
                 if (!p.isOp()) {
-                    return;
+                    continue;
                 }
                 for (String s : messages) {
-                    s = utils.replaceValues(command, player, args);
+                    s = utils.replaceValues(s, player, args);
                     p.sendMessage(s);
                 }
             }
         } else if (sendto.equalsIgnoreCase("permission")) {
             for (Player p : main.getServer().getOnlinePlayers()) {
                 if (!p.hasPermission(permission)) {
-                    return;
+                    continue;
                 }
                 for (String s : messages) {
-                    s = utils.replaceValues(command, player, args);
+                    s = utils.replaceValues(s, player, args);
                     p.sendMessage(s);
                 }
             }
         } else {
-            player.sendMessage("t");
+            player.sendMessage("§c[ERROR] §7Wrong sendTo! You can use: online, sender, op, permission");
         }
     }
 }

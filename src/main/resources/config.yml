@@ -7,9 +7,6 @@
 ######################################################################
 
 
-#Enable this if you want to get notified when a new version is released!
-CheckForUpdates: true
-
 #Do not change
 Version: ${config.version}
 

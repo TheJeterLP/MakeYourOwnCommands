@@ -14,7 +14,7 @@
     </distributionManagement>
     <build>
         <defaultGoal>clean install</defaultGoal>
-        <finalName>MakeYourOwnCommands ${project.version}</finalName>
+        <finalName>${project.name} ${number.Version}</finalName>
         <sourceDirectory>${basedir}/src/main/java/</sourceDirectory>
         <plugins>
             <plugin>
@@ -82,6 +82,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <bukkit.version>1.6.2-R0.2-SNAPSHOT</bukkit.version>
         <config.version>1</config.version>
+        <number.Version>1.5.1</number.Version>
     </properties>
     <version>1.5.1-SNAPSHOT</version>
 </project>
