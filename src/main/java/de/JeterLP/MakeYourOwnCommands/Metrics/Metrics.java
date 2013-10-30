@@ -51,7 +51,7 @@ public class Metrics {
         configuration.addDefault("opt-out", false);
         configuration.addDefault("guid", UUID.randomUUID().toString());
         configuration.addDefault("debug", false);
-        if (configuration.get("guid") == null) {
+        if (configuration.get("guid", null) == null) {
             configuration.options().header("http://mcstats.org").copyDefaults(true);
             configuration.save(configurationFile);
         }

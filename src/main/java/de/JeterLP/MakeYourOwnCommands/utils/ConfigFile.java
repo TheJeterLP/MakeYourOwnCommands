@@ -11,41 +11,30 @@ import org.bukkit.configuration.file.YamlConfiguration;
  */
 public class ConfigFile {
 
-    private final Main main;
+    private Main main;
 
     public ConfigFile(Main main) {
         this.main = main;
     }
 
     /**
-     * This method loads the config of this plugin
+     * <p>This method loads the config of this plugin</p>
      */
-    public void loadConfig() {
+    public boolean loadConfig() {
         File cfg = new File("plugins/MakeYourOwnCommands/config.yml");
         main.getDataFolder().mkdirs();
         YamlConfiguration config = YamlConfiguration.loadConfiguration(cfg);
-        int version = config.getInt("Version");
         if (cfg.exists()) {
-            if (version != 1) {
-                if (new File("plugins/MakeYourOwnCommands/config_old.yml").exists()) {
-                    File del = new File("plugins/MakeYourOwnCommands/config_old.yml");
-                    del.delete();
-                }
-                cfg.renameTo(new File("plugins/MakeYourOwnCommands/config_old.yml"));
-                System.out.println("The config has changed. You find your old config in /plugins/MakeYourOwnCommands/config_old.yml");
-                generateConfig();
+            if (config.getInt("Version") != 1) {
+                return false;
             }
             main.getConfig().options().copyDefaults(true);
+            return true;
         } else {
-            generateConfig();
+            main.saveDefaultConfig();
             main.getConfig().options().copyDefaults(true);
+            return true;
         }
-    }
-
-    private void generateConfig() {
-        MYOClogger.log(MYOClogger.Type.INFO, "Generating a new config for you...");
-        main.saveResource("config.yml", false);
-        MYOClogger.log(MYOClogger.Type.INFO, "Finished!");
     }
 
     public FileConfiguration getConfig() {

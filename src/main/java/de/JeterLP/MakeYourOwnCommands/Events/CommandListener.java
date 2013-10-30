@@ -32,7 +32,6 @@ public final class CommandListener implements Listener {
      * </p>
      *
      * @param event
-     * @throws de.JeterLP.MakeYourOwnCommands.WrongTypeException
      */
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onCommand(final PlayerCommandPreprocessEvent event) throws WrongTypeException {
@@ -82,7 +81,7 @@ public final class CommandListener implements Listener {
                 }
             }, (long) (delay * 20.0));
             event.setCancelled(true);
-        }
+        } 
     }
 
     private void sendMessages(String command, String[] args, Player player) {
