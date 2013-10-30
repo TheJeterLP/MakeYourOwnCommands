@@ -10,6 +10,8 @@
 #Do not change
 Version: ${config.version}
 
+SearchForUpdates: true
+
 NoPermissionMessage: '&cYou dont have permission to do this.'
 
 Commands:

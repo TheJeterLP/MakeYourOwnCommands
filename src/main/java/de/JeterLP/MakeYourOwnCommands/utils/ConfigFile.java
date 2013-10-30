@@ -18,26 +18,30 @@ public class ConfigFile {
     }
 
     /**
-     * <p>This method loads the config of this plugin</p>
+     * <p>
+     * This method loads the config of this plugin</p>
      */
-    public boolean loadConfig() {
-        File cfg = new File("plugins/MakeYourOwnCommands/config.yml");
+    public void loadConfig() {
+        File cfg = new File("plugins" + File.separator + "MakeYourOwnCommands" + File.separator + "config.yml");
         main.getDataFolder().mkdirs();
         YamlConfiguration config = YamlConfiguration.loadConfiguration(cfg);
         if (cfg.exists()) {
             if (config.getInt("Version") != 1) {
-                return false;
+                 cfg.renameTo(new File("plugins" + File.separator + "MakeYourOwnCommands" + File.separator + "config_old.yml"));
+                 generate();
             }
             main.getConfig().options().copyDefaults(true);
-            return true;
         } else {
-            main.saveDefaultConfig();
+            generate();
             main.getConfig().options().copyDefaults(true);
-            return true;
         }
     }
 
     public FileConfiguration getConfig() {
         return main.getConfig();
+    }
+
+    private void generate() {
+        main.saveResource("config.yml", false);
     }
 }
