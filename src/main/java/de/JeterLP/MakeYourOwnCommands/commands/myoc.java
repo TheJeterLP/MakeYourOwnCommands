@@ -36,7 +36,7 @@ public class myoc implements CommandExecutor {
         if (cmd.getName().equalsIgnoreCase("myoc")) {
             utils = new CommandUtils(main);
             if (args.length == 0) {
-                sender.sendMessage("§e " + main.prefix + "by §aJeterLP §eversion: §c" + main.getDescription().getVersion());
+                sender.sendMessage("§e[MakeYourOwnCommands] by §aJeterLP §eversion: §c" + main.getDescription().getVersion());
                 return true;
             }
             if (args[0].equalsIgnoreCase("reload")) {
