@@ -1,11 +1,12 @@
 package de.JeterLP.MakeYourOwnCommands;
 
 import de.JeterLP.MakeYourOwnCommands.Events.CommandListener;
+import de.JeterLP.MakeYourOwnCommands.Events.PlayerJoinListener;
 import de.JeterLP.MakeYourOwnCommands.commands.myoc;
+import de.JeterLP.MakeYourOwnCommands.utils.AdvancedUpdater;
 import de.JeterLP.MakeYourOwnCommands.utils.ConfigFile;
 import de.JeterLP.MakeYourOwnCommands.utils.MYOClogger;
 import de.JeterLP.MakeYourOwnCommands.utils.MetricsChecker;
-import de.JeterLP.MakeYourOwnCommands.utils.Updater;
 import net.milkbowl.vault.permission.Permission;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
@@ -17,46 +18,36 @@ import org.bukkit.plugin.java.JavaPlugin;
  */
 public class Main extends JavaPlugin {
 
-    public final String prefix = "[MakeYourOwnCommands] ";
     private ConfigFile loader;
     private MetricsChecker mchecker = null;
     public static Permission perms = null;
     public boolean useVault = false;
+    private AdvancedUpdater updater;
 
     /**
      * This method loads the plugin
      */
     @Override
     public void onEnable() {
-        MYOClogger.log(MYOClogger.Type.INFO, "(by JeterLP" + " Version: "
-                + getDescription().getVersion() + ") loading...");
+        MYOClogger.log(MYOClogger.Type.INFO, "(by JeterLP" + " Version: " + getDescription().getVersion() + ") loading...");
         loader = new ConfigFile(this);
-        if (!loader.loadConfig()) {
-            MYOClogger.log(MYOClogger.Type.ERROR,
-                    "Please let the plugin generate a new config for you.");
-            getServer().getPluginManager().disablePlugin(this);
-            return;
-        }
-        Updater updater = new Updater(this, 54353, getFile(),
-                Updater.UpdateType.DEFAULT, true);
+        loader.loadConfig();
+        updater = new AdvancedUpdater(this, 54353);
+        search();
+
         if (this.checkVault()) {
             setupPermissions();
             this.useVault = true;
-            MYOClogger.log(
-                    MYOClogger.Type.INFO,
-                    "Vault was found! Successfully hooked into: "
-                    + perms.getName());
+            MYOClogger.log(MYOClogger.Type.INFO, "Vault was found! Successfully hooked into: " + perms.getName());
         } else {
-            MYOClogger.log(MYOClogger.Type.INFO,
-                    "Vault was not found! Vault-support is disabled...");
+            MYOClogger.log(MYOClogger.Type.INFO, "Vault was not found! Vault-support is disabled...");
         }
         mchecker = new MetricsChecker(this);
         mchecker.checkMetrics();
         getCommand("myoc").setExecutor(new myoc(this));
-        getServer().getPluginManager().registerEvents(
-                new CommandListener(this), this);
-        MYOClogger.log(MYOClogger.Type.INFO, "(by JeterLP" + " Version: "
-                + getDescription().getVersion() + ") is now enabled.");
+        getServer().getPluginManager().registerEvents(new CommandListener(this), this);
+        getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
+        MYOClogger.log(MYOClogger.Type.INFO, "(by JeterLP" + " Version: " + getDescription().getVersion() + ") is now enabled.");
     }
 
     /**
@@ -64,23 +55,34 @@ public class Main extends JavaPlugin {
      */
     @Override
     public void onDisable() {
-        MYOClogger.log(MYOClogger.Type.INFO, "(by JeterLP" + " Version: "
-                + getDescription().getVersion() + ") is now disabled.");
+        MYOClogger.log(MYOClogger.Type.INFO, "(by JeterLP" + " Version: " + getDescription().getVersion() + ") is now disabled.");
     }
 
     private boolean setupPermissions() {
-        RegisteredServiceProvider<Permission> rsp = getServer()
-                .getServicesManager().getRegistration(Permission.class);
+        RegisteredServiceProvider<Permission> rsp = getServer().getServicesManager().getRegistration(Permission.class);
         perms = rsp.getProvider();
         return perms != null;
     }
 
-    public boolean checkVault() {
-        Plugin plugin = Bukkit.getServer().getPluginManager()
-                .getPlugin("Vault");
-        if (plugin == null) {
-            return false;
+    private boolean checkVault() {
+        Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("Vault");
+        return plugin != null;
+    }
+
+    public AdvancedUpdater getUpdater() {
+        return updater;
+    }
+
+    private void search() {
+        if (!updater.isEnabled()) {
+            return;
         }
-        return true;
+        getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
+
+            @Override
+            public void run() {
+                updater.search();
+            }
+        }, 10L * 20L);
     }
 }

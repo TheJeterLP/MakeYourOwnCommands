@@ -2,10 +2,7 @@ package de.JeterLP.MakeYourOwnCommands.utils;
 
 import de.JeterLP.MakeYourOwnCommands.Main;
 import de.JeterLP.MakeYourOwnCommands.Metrics.Metrics;
-import de.JeterLP.MakeYourOwnCommands.Metrics.Metrics.Graph;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -13,7 +10,7 @@ import java.util.logging.Logger;
  */
 public class MetricsChecker {
 
-    private Main main;
+    private final Main main;
 
     /**
      * <p>This is the constructor needed to get the Main class</p>
