@@ -12,7 +12,8 @@ Version: ${config.version}
 
 SearchForUpdates: true
 
-NoPermissionMessage: '&cYou dont have permission to do this.'
+NoPermissionMessage: '&cSorry, %player%, you dont have permission to do this.'
+CommandIsBlocked: '&cSorry, %player%, the command %cmd% is blocked in %world%.'
 
 Commands:
   
@@ -46,6 +47,11 @@ Commands:
     messages: 
     - '&cExecuting /say I am a test'
     execute: '/say I am a test!'
+    
+BlockedWorlds:
+    world:
+    - '/alias'
+    - '/msgtest'
     
     
   

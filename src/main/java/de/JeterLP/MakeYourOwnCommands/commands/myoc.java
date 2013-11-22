@@ -15,8 +15,7 @@ import org.bukkit.entity.Player;
  */
 public class myoc implements CommandExecutor {
 
-    private Main main;
-    private CommandUtils utils;
+    private final Main main;
 
     public myoc(Main main) {
         this.main = main;
@@ -34,7 +33,6 @@ public class myoc implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String commandlabel, String[] args) {
         if (cmd.getName().equalsIgnoreCase("myoc")) {
-            utils = new CommandUtils(main);
             if (args.length == 0) {
                 sender.sendMessage("§e[MakeYourOwnCommands] by §aJeterLP §eversion: §c" + main.getDescription().getVersion());
                 return true;

@@ -11,16 +11,12 @@ import org.bukkit.configuration.file.YamlConfiguration;
  */
 public class ConfigFile {
 
-    private Main main;
+    private final Main main;
 
     public ConfigFile(Main main) {
         this.main = main;
     }
 
-    /**
-     * <p>
-     * This method loads the config of this plugin</p>
-     */
     public void loadConfig() {
         File cfg = new File("plugins" + File.separator + "MakeYourOwnCommands" + File.separator + "config.yml");
         main.getDataFolder().mkdirs();

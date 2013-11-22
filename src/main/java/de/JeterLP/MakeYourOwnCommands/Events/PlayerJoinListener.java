@@ -8,27 +8,24 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 public class PlayerJoinListener
-  implements Listener
-{
-  private final Main main;
-  
-  public PlayerJoinListener(Main main)
-  {
-    this.main = main;
-  }
-  
-  @EventHandler(priority=EventPriority.HIGHEST)
-  public void onOPJoin(PlayerJoinEvent e)
-  {
-    Player player = e.getPlayer();
-    if (!player.isOp()) {
-      return;
+        implements Listener {
+
+    private final Main main;
+
+    public PlayerJoinListener(Main main) {
+        this.main = main;
     }
-    if (!this.main.getUpdater().isEnabled())
-    {
-      player.sendMessage("§c[UPDATE-SYSTEM]§7 Updater is disabled.");
-      return;
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onOPJoin(PlayerJoinEvent e) {
+        Player player = e.getPlayer();
+        if (!player.isOp()) {
+            return;
+        }
+        if (!this.main.getUpdater().isEnabled()) {
+            player.sendMessage("§c[UPDATE-SYSTEM]§7 Updater is disabled.");
+            return;
+        }
+        this.main.getUpdater().search(player);
     }
-    this.main.getUpdater().search(player);
-  }
 }
