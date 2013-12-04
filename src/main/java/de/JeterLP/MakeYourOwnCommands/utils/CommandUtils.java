@@ -21,6 +21,10 @@ public class CommandUtils {
         public CommandUtils() {
                 config = Main.instance.getConfig();
         }
+        
+        public CommandUtils(Main main) {
+                config = main.getConfig();
+        }
 
         private final FileConfiguration config;
         private final SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
