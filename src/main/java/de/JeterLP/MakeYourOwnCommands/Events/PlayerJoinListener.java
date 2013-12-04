@@ -23,7 +23,6 @@ public class PlayerJoinListener
             return;
         }
         if (!this.main.getUpdater().isEnabled()) {
-            player.sendMessage("§c[UPDATE-SYSTEM]§7 Updater is disabled.");
             return;
         }
         this.main.getUpdater().search(player);

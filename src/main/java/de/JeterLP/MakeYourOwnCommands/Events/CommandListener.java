@@ -18,12 +18,8 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
  */
 public final class CommandListener implements Listener {
 
-        private final Main main;
-        private CommandUtils utils;
-
-        public CommandListener(Main main) {
-                this.main = main;
-        }
+        private final Main main = Main.instance;
+        private CommandUtils utils = Main.getUtils();
 
         /**
          * <p>
@@ -39,7 +35,7 @@ public final class CommandListener implements Listener {
                 if (event.isCancelled()) {
                         return;
                 }
-                utils = new CommandUtils(main);
+
                 final Player player = event.getPlayer();
                 final String[] args = event.getMessage().split(" ");
                 final String command = args[0];
@@ -58,8 +54,8 @@ public final class CommandListener implements Listener {
                         event.setCancelled(true);
                         return;
                 }
-                
-                if(utils.isBlocked(command, player.getWorld().getName())) {
+
+                if (utils.isBlocked(command, player.getWorld().getName())) {
                         player.sendMessage(blocked);
                         event.setCancelled(true);
                         return;

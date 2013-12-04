@@ -1,7 +1,6 @@
 package de.JeterLP.MakeYourOwnCommands.commands;
 
 import de.JeterLP.MakeYourOwnCommands.Main;
-import de.JeterLP.MakeYourOwnCommands.utils.CommandUtils;
 import java.util.List;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -15,21 +14,8 @@ import org.bukkit.entity.Player;
  */
 public class myoc implements CommandExecutor {
 
-    private final Main main;
+    private final Main main = Main.instance;
 
-    public myoc(Main main) {
-        this.main = main;
-    }
-
-    /**
-     * <p>This method reloads the config if /myoc reload was typed</p>
-     *
-     * @param sender
-     * @param cmd
-     * @param commandlabel
-     * @param args
-     * @return
-     */
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String commandlabel, String[] args) {
         if (cmd.getName().equalsIgnoreCase("myoc")) {

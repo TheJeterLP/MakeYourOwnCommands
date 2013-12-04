@@ -11,11 +11,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
  */
 public class ConfigFile {
 
-    private final Main main;
-
-    public ConfigFile(Main main) {
-        this.main = main;
-    }
+    private final Main main = Main.instance;
 
     public void loadConfig() {
         File cfg = new File("plugins" + File.separator + "MakeYourOwnCommands" + File.separator + "config.yml");

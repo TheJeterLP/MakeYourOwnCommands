@@ -16,13 +16,10 @@ import org.bukkit.entity.Player;
 public class CommandUtils {
 
         /**
-         * main has to be the MakeYourOwnCommands main class.
-         * example:
-         * CommandUtils utils = new CommandUtils((Main) Bukkit.getPluginManager().getPlugin("MakeYourOwnCommands"));
-         * @param main
+         * Use Main.getUtils() for the instance
          */
-        public CommandUtils(Main main) {
-                config = main.getConfig();
+        public CommandUtils() {
+                config = Main.instance.getConfig();
         }
 
         private final FileConfiguration config;
@@ -109,7 +106,7 @@ public class CommandUtils {
                 try {
                         String cmd = config.getString("Commands." + command + ".execute");
                         cmd = replaceValues(cmd, player, args);
-                        cmd = cmd.replace("/", "");
+                        cmd = cmd.replaceFirst("/", "");
                         return cmd;
                 } catch (NullPointerException e) {
                         throw new WrongTypeException("Command is not an alias.");
