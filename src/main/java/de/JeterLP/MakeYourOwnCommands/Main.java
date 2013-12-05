@@ -13,23 +13,26 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class Main extends JavaPlugin {
 
-        private final ConfigFile loader = new ConfigFile();
-        private final MetricsChecker mchecker = new MetricsChecker();
+        private ConfigFile loader = null;
+        private MetricsChecker mchecker = null;
         public static Permission perms = null;
         public boolean useVault = false;
         private AdvancedUpdater updater = null;
         public static Main instance;
         private static CommandUtils utils;
 
-        /**
-         *
-         */
+        @Override
         public void onEnable() {
                 getLogger().info("(by JeterLP Version: " + getDescription().getVersion() + ") loading...");
+                Main.instance = this;
+                utils = new CommandUtils();
+                loader = new ConfigFile();
+                mchecker = new MetricsChecker();
                 this.loader.loadConfig();
                 try {
                         this.updater = new AdvancedUpdater(this, 54353, "http://dev.bukkit.org/bukkit-plugins/simple-info2/", "SearchForUpdates");
                 } catch (MalformedURLException ex) {
+                        ex.printStackTrace();
                 }
                 if (updater != null) updater.search();
                 if (checkVault() && setupPermissions()) {
@@ -42,8 +45,6 @@ public class Main extends JavaPlugin {
                 getCommand("myoc").setExecutor(new myoc());
                 getServer().getPluginManager().registerEvents(new CommandListener(), this);
                 getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
-                utils = new CommandUtils();
-                Main.instance = this;
                 getLogger().info("(by JeterLP Version: " + getDescription().getVersion() + ") is now enabled.");
         }
 
@@ -66,8 +67,9 @@ public class Main extends JavaPlugin {
         public AdvancedUpdater getUpdater() {
                 return this.updater;
         }
-        
+
         public static CommandUtils getUtils() {
                 return utils;
         }
+
 }
