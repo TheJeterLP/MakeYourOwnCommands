@@ -48,6 +48,16 @@ Commands:
     - '&cExecuting /say I am a test'
     execute: '/say I am a test!'
     
+  /items:
+    mode: 'item'
+    permission: 'myoc.item'
+    sendTo: 'sender'
+    messages:
+    - 'item'
+    Item:
+      Material: 35
+      Amount: 7
+    
 BlockedWorlds:
     world:
     - '/alias'
