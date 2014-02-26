@@ -3,7 +3,7 @@ version: ${number.Version}
 description: Make Your Own Commands without learn how to program
 author: JeterLP
 website: http://dev.bukkit.org/server-mods/simple-info2
-
+softdepend: [Multiverse-Core]
 main: de.JeterLP.MakeYourOwnCommands.Main
 
 commands:

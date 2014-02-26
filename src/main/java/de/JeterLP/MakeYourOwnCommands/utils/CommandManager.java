@@ -1,8 +1,9 @@
 package de.JeterLP.MakeYourOwnCommands.utils;
 
-import de.JeterLP.MakeYourOwnCommands.*;
+import de.JeterLP.MakeYourOwnCommands.Main;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -10,19 +11,33 @@ import org.bukkit.entity.Player;
 
 /**
  * @author TheJeterLP
- * @deprecated use CommandManager class.
  */
-@Deprecated
-public class CommandUtils {
+public class CommandManager {
 
-        private final FileConfiguration config = Main.getInstance().getConfig();
-        private final SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
+        private static final HashMap<String, Command> commands = new HashMap<String, Command>();
+        private static final FileConfiguration config = Main.getInstance().getConfig();
+        private static final SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
 
-        /**
-         * @deprecated Use CommandManager class.
-         */
-        @Deprecated
-        public String replaceValues(String message, Player player, String[] args) {
+        private CommandManager() {
+        }
+
+        public static void init() {
+                commands.clear();
+                for (String command : Main.getInstance().getConfig().getConfigurationSection("Commands").getKeys(false)) {
+                        Command cmd = new Command(command);
+                        commands.put(command, cmd);
+                }
+        }
+
+        public static Command getCommand(String name) {
+                return commands.get(name);
+        }
+
+        public static boolean isRegistered(String command) {
+                return commands.containsKey(command);
+        }
+
+        public static String replaceValues(String message, Player player, String[] args) {
                 message = message.replaceAll("%sender%", player.getName())
                                 .replaceAll("%realtime%", format.format(new Date()))
                                 .replaceAll("%onlineplayers%", String.valueOf(Bukkit.getOnlinePlayers().length))
@@ -47,35 +62,19 @@ public class CommandUtils {
                 return message;
         }
 
-        /**
-         * @deprecated Use CommandManager class.
-         */
-        @Deprecated
-        public String getNoPermissionMessage(Player player) {
+        public static String getNoPermissionMessage(Player player) {
                 String msg = config.getString("NoPermissionMessage");
                 msg = msg.replaceAll("&((?i)[0-9a-fk-or])", "§$1");
                 msg = msg.replaceAll("%player%", player.getName());
                 return msg;
         }
 
-        /**
-         * @deprecated Use CommandManager class.
-         */
-        @Deprecated
-        public boolean isRegistered(String command) {
-                for (String commands : config.getConfigurationSection("Commands").getKeys(false)) {
-                        if (commands.equalsIgnoreCase(command)) {
-                                return true;
-                        }
-                }
-                return false;
+        public static boolean isBlocked(String command, String world) {
+                List<String> blocked = config.getStringList("BlockedWorlds." + world);
+                return blocked != null && blocked.contains(command);
         }
-
-        /**
-         * @deprecated Use CommandManager class.
-         */
-        @Deprecated
-        public String getCommandIsBlockedMessage(Player player, String world, String command) {
+        
+        public static String getCommandIsBlockedMessage(Player player, String world, String command) {
                 String msg = config.getString("CommandIsBlocked");
                 msg = msg.replaceAll("&((?i)[0-9a-fk-or])", "§$1");
                 msg = msg.replaceAll("%player%", player.getName());
@@ -84,12 +83,4 @@ public class CommandUtils {
                 return msg;
         }
 
-        /**
-         * @deprecated use CommandManager class.
-         */
-        @Deprecated
-        public boolean isBlocked(String command, String world) {
-                List<String> blocked = config.getStringList("BlockedWorlds." + world);
-                return blocked != null && blocked.contains(command);
-        }
 }
