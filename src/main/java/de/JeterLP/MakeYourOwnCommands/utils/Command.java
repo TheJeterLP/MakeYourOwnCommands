@@ -2,28 +2,31 @@ package de.JeterLP.MakeYourOwnCommands.utils;
 
 import de.JeterLP.MakeYourOwnCommands.Main;
 import java.util.List;
+import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 /**
  * @author TheJeterLP
  */
 public class Command {
-        
+
         private CommandType type;
         private String command;
         private String permission, sendTo;
         private List<String> messages;
         private LocationHelper TPLOC = null;
         private String EXECUTE = null;
-        
+        private ItemStack ITEM = null;
+
         private final boolean valid;
-        
+
         protected Command(String commandName) {
                 Main.getInstance().getLogger().info("Loading command " + commandName);
                 FileConfiguration cfg = Main.getInstance().getConfig();
                 if (CommandType.isValid(cfg.getString("Commands." + commandName + ".mode"))) {
-                        type = CommandType.getByName(cfg.getString("Commands." + commandName + ".mode"));                        
+                        type = CommandType.getByName(cfg.getString("Commands." + commandName + ".mode"));
                         command = commandName;
                         permission = cfg.getString("Commands." + commandName + ".permission");
                         sendTo = cfg.getString("Commands." + commandName + ".sendTo");
@@ -39,6 +42,16 @@ public class Command {
                                 float pitch = Float.valueOf(cfg.getString("Commands." + commandName + ".pitch"));
                                 double delay = cfg.getDouble("Commands." + commandName + ".delay");
                                 TPLOC = new LocationHelper(delay, x, y, z, yaw, pitch, world);
+                        } else if (type == CommandType.ITEM) {
+                                Material mat = null;
+                                String item = cfg.getString("Commands." + commandName + ".Item.Material");
+                                try {
+                                        mat = Material.getMaterial(Integer.valueOf(item));
+                                } catch (NumberFormatException ex) {
+                                        mat = Material.valueOf(item);
+                                }
+                                int amount = cfg.getInt("Commands." + commandName + ".Item.Amount");
+                                ITEM = new ItemStack(mat, amount);
                         }
                         valid = true;
                 } else {
@@ -53,6 +66,14 @@ public class Command {
         public CommandType getType() {
                 if (!valid) return null;
                 return type;
+        }
+
+        /**
+         * @return ItemStack 
+         */
+        public ItemStack getItem() {
+                if (!valid) return null;
+                return ITEM;
         }
 
         /**
@@ -114,13 +135,13 @@ public class Command {
                         player.sendMessage(noperm);
                         return;
                 }
-                
+
                 if (CommandManager.isBlocked(command, player.getWorld().getName())) {
                         String blocked = CommandManager.getCommandIsBlockedMessage(player, player.getWorld().getName(), command);
                         player.sendMessage(blocked);
                         return;
                 }
-                
+
                 switch (type) {
                         case TELEPORT:
                                 TPLOC.teleport(player);
@@ -133,8 +154,12 @@ public class Command {
                         case MESSAGE:
                                 sendMessages(args, player);
                                 break;
+                        case ITEM:
+                                player.getInventory().addItem(ITEM);
+                                sendMessages(args, player);
+                                break;
                 }
-                
+
         }
 
         /**
@@ -182,8 +207,8 @@ public class Command {
                         default:
                                 player.sendMessage("§c[ERROR] §7Wrong sendTo! You can use: online, sender, op, permission");
                                 break;
-                        
+
                 }
         }
-        
+
 }
