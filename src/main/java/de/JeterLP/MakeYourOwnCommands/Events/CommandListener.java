@@ -1,6 +1,7 @@
 package de.JeterLP.MakeYourOwnCommands.Events;
 
 import de.JeterLP.MakeYourOwnCommands.utils.CommandManager;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -12,7 +13,7 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
  */
 public final class CommandListener implements Listener {
         
-        @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+        @EventHandler(ignoreCancelled = true)
         public void onCommand(final PlayerCommandPreprocessEvent event) {               
                 final Player player = event.getPlayer();
                 final String[] args = event.getMessage().split(" ");
@@ -23,6 +24,7 @@ public final class CommandListener implements Listener {
                 }
                 
                 CommandManager.getCommand(command).execute(player, args);
+                Bukkit.getLogger().info(player.getName() + " issued server command: " + event.getMessage());
                 event.setCancelled(true);
         }
 }

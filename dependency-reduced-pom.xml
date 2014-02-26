@@ -4,7 +4,7 @@
   <groupId>de.JeterLP</groupId>
   <artifactId>MakeYourOwnCommands</artifactId>
   <name>MakeYourOwnCommands</name>
-  <version>1.5.3-SNAPSHOT</version>
+  <version>1.5.3</version>
   <inceptionYear>2013</inceptionYear>
   <build>
     <sourceDirectory>${basedir}/src/main/java/</sourceDirectory>
@@ -25,24 +25,16 @@
           <include>**/*.yml</include>
         </includes>
       </resource>
-      <resource>
-        <targetPath>/source/</targetPath>
-        <filtering>true</filtering>
-        <directory>${basedir}/src/main/java/</directory>
-        <includes>
-          <include>**/*.java</include>
-        </includes>
-      </resource>
     </resources>
-    <finalName>${project.name} ${number.Version}</finalName>
+    <finalName>${project.name}</finalName>
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.1</version>
         <configuration>
           <optimize>true</optimize>
-          <source>1.6</source>
-          <target>1.6</target>
+          <source>1.7</source>
+          <target>1.7</target>
         </configuration>
       </plugin>
       <plugin>
@@ -74,9 +66,8 @@
   </build>
   <repositories>
     <repository>
-      <snapshots />
-      <id>BukkitDev</id>
-      <url>http://www.gestdown.info:8888/nexus/content/groups/BukkitDev/</url>
+      <id>bukkit repo</id>
+      <url>http://repo.bukkit.org/content/groups/public</url>
     </repository>
     <repository>
       <id>Plugin Metrics</id>
@@ -86,20 +77,8 @@
   <dependencies>
     <dependency>
       <groupId>org.bukkit</groupId>
-      <artifactId>bukkit</artifactId>
-      <version>1.7.2-R0.1-SNAPSHOT</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.bukkit</groupId>
       <artifactId>craftbukkit</artifactId>
       <version>1.7.2-R0.1-SNAPSHOT</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>net.milkbowl.vault</groupId>
-      <artifactId>Vault</artifactId>
-      <version>[1.2,)</version>
       <scope>compile</scope>
     </dependency>
   </dependencies>
@@ -112,8 +91,6 @@
   <properties>
     <config.version>1</config.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <number.Version>1.5.3</number.Version>
-    <bukkit.version>1.7.2-R0.1-SNAPSHOT</bukkit.version>
   </properties>
 </project>
 

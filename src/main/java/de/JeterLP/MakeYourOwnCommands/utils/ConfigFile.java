@@ -11,29 +11,28 @@ import org.bukkit.configuration.file.YamlConfiguration;
  */
 public class ConfigFile {
 
-    private final Main main = Main.getInstance();
+        private final Main main = Main.getInstance();
 
-    public void loadConfig() {
-        File cfg = new File("plugins" + File.separator + "MakeYourOwnCommands" + File.separator + "config.yml");
-        main.getDataFolder().mkdirs();
-        YamlConfiguration config = YamlConfiguration.loadConfiguration(cfg);
-        if (cfg.exists()) {
-            if (config.getInt("Version") != 1) {
-                 cfg.renameTo(new File("plugins" + File.separator + "MakeYourOwnCommands" + File.separator + "config_old.yml"));
-                 generate();
-            }
-            main.getConfig().options().copyDefaults(true);
-        } else {
-            generate();
-            main.getConfig().options().copyDefaults(true);
+        public void loadConfig() {
+                File cfg = new File("plugins" + File.separator + "MakeYourOwnCommands" + File.separator + "config.yml");
+                main.getDataFolder().mkdirs();
+                YamlConfiguration config = YamlConfiguration.loadConfiguration(cfg);
+                if (cfg.exists()) {
+                        if (config.getInt("Version") != 1) {
+                                cfg.renameTo(new File("plugins" + File.separator + "MakeYourOwnCommands" + File.separator + "config_old.yml"));
+                                generate();
+                        }
+                } else {
+                        generate();
+                }
+                main.getConfig().options().copyDefaults(true);
         }
-    }
 
-    public FileConfiguration getConfig() {
-        return main.getConfig();
-    }
+        public FileConfiguration getConfig() {
+                return main.getConfig();
+        }
 
-    private void generate() {
-        main.saveResource("config.yml", false);
-    }
+        private void generate() {
+                main.saveResource("config.yml", false);
+        }
 }

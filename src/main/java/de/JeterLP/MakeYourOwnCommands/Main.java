@@ -37,6 +37,7 @@ public class Main extends JavaPlugin {
         }
       
         /**
+         * @return Old CommandUtils
          * @deprecated Use CommandManager class
          */
         @Deprecated

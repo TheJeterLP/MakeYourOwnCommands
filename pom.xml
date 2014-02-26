@@ -5,7 +5,7 @@
     <artifactId>MakeYourOwnCommands</artifactId>
     <name>MakeYourOwnCommands</name>
     <inceptionYear>2013</inceptionYear>
-    <description></description>
+    <version>1.5.3</version>
     <distributionManagement>
         <repository>
             <id>repo</id>
@@ -14,7 +14,7 @@
     </distributionManagement>
     <build>
         <defaultGoal>clean install</defaultGoal>
-        <finalName>${project.name} ${number.Version}</finalName>
+        <finalName>${project.name}</finalName>
         <sourceDirectory>${basedir}/src/main/java/</sourceDirectory>
         <plugins>
             <plugin>
@@ -23,8 +23,8 @@
                 <version>3.1</version>
                 <configuration>
                     <optimize>true</optimize>
-                    <source>1.6</source>
-                    <target>1.6</target>
+                    <source>1.7</source>
+                    <target>1.7</target>
                 </configuration>
             </plugin>
             <plugin>
@@ -64,16 +64,7 @@
                 <includes>                   
                     <include>**/*.yml</include>
                 </includes>
-            </resource>
-            
-            <resource>
-                <targetPath>/source/</targetPath>
-                <filtering>true</filtering>
-                <directory>${basedir}/src/main/java/</directory>
-                <includes>
-                    <include>**/*.java</include>
-                </includes>
-            </resource>
+            </resource>         
         </resources>
         <extensions>
             <extension>
@@ -110,5 +101,4 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <config.version>1</config.version>
     </properties>
-    <version>1.5.3</version>
 </project>

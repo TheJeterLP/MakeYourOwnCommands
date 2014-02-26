@@ -1,15 +1,11 @@
 package de.JeterLP.MakeYourOwnCommands.utils;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -54,16 +50,6 @@ public class AdvancedUpdater {
                 }, 200L);
         }
 
-        public void search(Player player) {
-                if (!read()) {
-                        return;
-                }
-                if (versionCheck(this.versionName)) {
-                        player.sendMessage(ChatColor.GOLD + main.getDescription().getName() + "§a[UPDATER]§7 A new update is available! (" + this.verwith + ") current: " + main.getDescription().getVersion());
-                        player.sendMessage(ChatColor.GOLD + main.getDescription().getName() + "§a[UPDATER]§7 You can get it at: " + link);
-                }
-        }
-
         private boolean versionCheck(String title) {
                 String[] titleParts = title.split(" v");
                 this.remoteVersion = Integer.valueOf(titleParts[1].split(" ")[0].replaceAll("\\.", ""));
@@ -79,10 +65,8 @@ public class AdvancedUpdater {
                         URLConnection conn = this.url.openConnection();
                         conn.setConnectTimeout(5000);
                         conn.setDoOutput(true);
-
                         BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
                         String response = reader.readLine();
-
                         JSONArray array = (JSONArray) JSONValue.parse(response);
                         if (array.size() == 0) {
                                 return false;

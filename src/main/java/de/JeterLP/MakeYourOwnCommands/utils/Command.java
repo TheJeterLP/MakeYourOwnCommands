@@ -9,24 +9,25 @@ import org.bukkit.entity.Player;
  * @author TheJeterLP
  */
 public class Command {
-
+        
         private CommandType type;
         private String command;
         private String permission, sendTo;
         private List<String> messages;
         private LocationHelper TPLOC = null;
         private String EXECUTE = null;
-
+        
         private final boolean valid;
-
-        public Command(String commandName) {
+        
+        protected Command(String commandName) {
+                Main.getInstance().getLogger().info("Loading command " + commandName);
                 FileConfiguration cfg = Main.getInstance().getConfig();
                 if (CommandType.isValid(cfg.getString("Commands." + commandName + ".mode"))) {
-                        type = CommandType.getByName(cfg.getString("Commands." + commandName + ".mode"));
+                        type = CommandType.getByName(cfg.getString("Commands." + commandName + ".mode"));                        
                         command = commandName;
                         permission = cfg.getString("Commands." + commandName + ".permission");
                         sendTo = cfg.getString("Commands." + commandName + ".sendTo");
-                        messages = cfg.getStringList("Commands." + commandName + ".mode");
+                        messages = cfg.getStringList("Commands." + commandName + ".messages");
                         if (type == CommandType.ALIAS) {
                                 EXECUTE = cfg.getString("Commands." + commandName + ".execute");
                         } else if (type == CommandType.TELEPORT) {
@@ -41,45 +42,71 @@ public class Command {
                         }
                         valid = true;
                 } else {
+                        Main.getInstance().getLogger().severe(commandName + " does not have a valid CommandType.");
                         valid = false;
                 }
         }
 
+        /**
+         * @return CommandType
+         */
         public CommandType getType() {
                 if (!valid) return null;
                 return type;
         }
 
+        /**
+         * @return CommandType
+         */
         public String getCommand() {
                 if (!valid) return null;
                 return command;
         }
 
+        /**
+         * @return CommandType
+         */
         public String getPermission() {
                 if (!valid) return null;
                 return permission;
         }
 
+        /**
+         * @return CommandType
+         */
         public String getSendTO() {
                 if (!valid) return null;
                 return sendTo;
         }
 
+        /**
+         * @return CommandType
+         */
         public List<String> getMessages() {
                 if (!valid) return null;
                 return messages;
         }
 
+        /**
+         * @return CommandType
+         */
         public String getExecute() {
                 if (!valid || type != CommandType.ALIAS) return null;
                 return EXECUTE;
         }
 
+        /**
+         * @return CommandType
+         */
         public LocationHelper getLocation() {
                 if (!valid || type != CommandType.TELEPORT) return null;
                 return TPLOC;
         }
 
+        /**
+         * @param player
+         * @param args
+         */
         public void execute(Player player, String[] args) {
                 if (!valid) return;
                 String noperm = CommandManager.getNoPermissionMessage(player);
@@ -87,13 +114,13 @@ public class Command {
                         player.sendMessage(noperm);
                         return;
                 }
-
+                
                 if (CommandManager.isBlocked(command, player.getWorld().getName())) {
                         String blocked = CommandManager.getCommandIsBlockedMessage(player, player.getWorld().getName(), command);
                         player.sendMessage(blocked);
                         return;
                 }
-
+                
                 switch (type) {
                         case TELEPORT:
                                 TPLOC.teleport(player);
@@ -105,47 +132,58 @@ public class Command {
                                 break;
                         case MESSAGE:
                                 sendMessages(args, player);
-                                break;                                
+                                break;
                 }
-
+                
         }
 
+        /**
+         * @param args
+         * @param player
+         */
         public void sendMessages(String[] args, Player player) {
-                if (sendTo.equalsIgnoreCase("sender")) {
-                        for (String s : messages) {
-                                s = CommandManager.replaceValues(s, player, args);
-                                player.sendMessage(s);
-                        }
-                } else if (sendTo.equalsIgnoreCase("online")) {
-                        for (Player p : Main.getInstance().getServer().getOnlinePlayers()) {
+                switch (sendTo) {
+                        case "sender":
                                 for (String s : messages) {
                                         s = CommandManager.replaceValues(s, player, args);
-                                        p.sendMessage(s);
+                                        player.sendMessage(s);
                                 }
-                        }
-                } else if (sendTo.equalsIgnoreCase("op")) {
-                        for (Player p : Main.getInstance().getServer().getOnlinePlayers()) {
-                                if (!p.isOp()) {
-                                        continue;
+                                break;
+                        case "online":
+                                for (Player p : Main.getInstance().getServer().getOnlinePlayers()) {
+                                        for (String s : messages) {
+                                                s = CommandManager.replaceValues(s, player, args);
+                                                p.sendMessage(s);
+                                        }
                                 }
-                                for (String s : messages) {
-                                        s = CommandManager.replaceValues(s, player, args);
-                                        p.sendMessage(s);
+                                break;
+                        case "op":
+                                for (Player p : Main.getInstance().getServer().getOnlinePlayers()) {
+                                        if (!p.isOp()) {
+                                                continue;
+                                        }
+                                        for (String s : messages) {
+                                                s = CommandManager.replaceValues(s, player, args);
+                                                p.sendMessage(s);
+                                        }
                                 }
-                        }
-                } else if (sendTo.equalsIgnoreCase("permission")) {
-                        for (Player p : Main.getInstance().getServer().getOnlinePlayers()) {
-                                if (!p.hasPermission(permission)) {
-                                        continue;
+                                break;
+                        case "permission":
+                                for (Player p : Main.getInstance().getServer().getOnlinePlayers()) {
+                                        if (!p.hasPermission(permission)) {
+                                                continue;
+                                        }
+                                        for (String s : messages) {
+                                                s = CommandManager.replaceValues(s, player, args);
+                                                p.sendMessage(s);
+                                        }
                                 }
-                                for (String s : messages) {
-                                        s = CommandManager.replaceValues(s, player, args);
-                                        p.sendMessage(s);
-                                }
-                        }
-                } else {
-                        player.sendMessage("§c[ERROR] §7Wrong sendTo! You can use: online, sender, op, permission");
+                                break;
+                        default:
+                                player.sendMessage("§c[ERROR] §7Wrong sendTo! You can use: online, sender, op, permission");
+                                break;
+                        
                 }
         }
-
+        
 }
