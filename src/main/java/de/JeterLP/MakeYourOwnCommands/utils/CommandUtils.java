@@ -1,5 +1,6 @@
-package de.JeterLP.MakeYourOwnCommands.Command;
+package de.JeterLP.MakeYourOwnCommands.utils;
 
+import de.JeterLP.MakeYourOwnCommands.Command.CommandManager;
 import org.bukkit.entity.Player;
 
 /**

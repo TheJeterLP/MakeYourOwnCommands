@@ -1,6 +1,6 @@
 package de.JeterLP.MakeYourOwnCommands;
 
-import de.JeterLP.MakeYourOwnCommands.Command.CommandUtils;
+import de.JeterLP.MakeYourOwnCommands.utils.CommandUtils;
 import de.JeterLP.MakeYourOwnCommands.Command.CommandManager;
 import de.JeterLP.MakeYourOwnCommands.Listener.CommandListener;
 import de.JeterLP.MakeYourOwnCommands.utils.*;
