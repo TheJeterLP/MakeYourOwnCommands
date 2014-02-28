@@ -24,7 +24,8 @@ Commands:
     messages: 
     - '&cTeleporting to coords...'
     - '&ePlease wait for the timer...'
-    delay: 3.0
+    #use -1 or 0 for no timer
+    delay: 3
     permission: 'myoc.tptest'
     world: 'world'
     x: 100.0

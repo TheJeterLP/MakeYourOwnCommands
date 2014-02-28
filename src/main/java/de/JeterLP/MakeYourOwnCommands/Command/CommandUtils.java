@@ -1,4 +1,4 @@
-package de.JeterLP.MakeYourOwnCommands.utils;
+package de.JeterLP.MakeYourOwnCommands.Command;
 
 import org.bukkit.entity.Player;
 
@@ -13,6 +13,7 @@ public class CommandUtils {
          * @param message
          * @param player
          * @param args
+         * @return String
          * @deprecated Use CommandManager class.
          */
         @Deprecated

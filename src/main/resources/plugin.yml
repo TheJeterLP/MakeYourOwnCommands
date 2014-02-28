@@ -1,7 +1,7 @@
 name: MakeYourOwnCommands
 version: ${project.version}
-description: Make Your Own Commands without learn how to program
-author: JeterLP
+description: Make your own commands without learn how to programm
+author: TheJeterLP
 website: http://dev.bukkit.org/server-mods/simple-info2
 softdepend: [Multiverse-Core]
 main: de.JeterLP.MakeYourOwnCommands.Main

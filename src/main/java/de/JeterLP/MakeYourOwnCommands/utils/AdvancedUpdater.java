@@ -31,6 +31,9 @@ public class AdvancedUpdater {
                 this.url = new URL("https://api.curseforge.com/servermods/files?projectIds=" + this.id);
         }
 
+        /**
+         * Searches for an update and announces it, if an update was found.
+         */
         public void search() {
                 if (!isEnabled()) {
                         return;
@@ -50,6 +53,11 @@ public class AdvancedUpdater {
                 }, 200L);
         }
 
+        /**
+         * Used to check if the last version fromk BukkitDev is higher than the current.
+         * @param title
+         * @return true: If the version on BukkitDev is higher.
+         */
         private boolean versionCheck(String title) {
                 String[] titleParts = title.split(" v");
                 this.remoteVersion = Integer.valueOf(titleParts[1].split(" ")[0].replaceAll("\\.", ""));
@@ -60,6 +68,10 @@ public class AdvancedUpdater {
                 return (this.version != this.remoteVersion) && (this.version <= this.remoteVersion);
         }
 
+        /**
+         * Reads all version out of Bukkits update-system.
+         * @return true: if the check was successfully.
+         */
         private boolean read() {
                 try {
                         URLConnection conn = this.url.openConnection();
@@ -78,7 +90,11 @@ public class AdvancedUpdater {
                 }
         }
 
-        public boolean isEnabled() {
+        /**
+         * Checks if the UpdateChecker is enabled by the given config value in the constructor.
+         * @return true: if its enabled.
+         */
+        private boolean isEnabled() {
                 return this.main.getConfig().getBoolean(configValue, true);
         }
 }
