@@ -1,13 +1,10 @@
 package de.JeterLP.MakeYourOwnCommands;
 
 import de.JeterLP.MakeYourOwnCommands.Command.CommandManager;
-import java.util.List;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 /**
  *
@@ -15,7 +12,6 @@ import org.bukkit.entity.Player;
  */
 public class MyocCommand implements CommandExecutor {
         
-        private final Main main = Main.getInstance();
 
         /**
          * Executes the /myoc command.
@@ -42,7 +38,7 @@ public class MyocCommand implements CommandExecutor {
                                 }
                         } else if (args[0].equalsIgnoreCase("list")) {
                                 if (sender.hasPermission("myoc.list") || sender.hasPermission("myoc.*")) {
-                                        sender.sendMessage("§5Commands:");
+                                        sender.sendMessage("§5Loaded Commands:");
                                         for (de.JeterLP.MakeYourOwnCommands.Command.Command command : CommandManager.getCommands()) {
                                                 sender.sendMessage("    §a" + command.getCommand());
                                         }
