@@ -25,7 +25,8 @@ public class LocationHelper {
 
         /**
          * Teleports target to the location using the delay.
-         * @param target 
+         *
+         * @param target
          */
         public void teleport(final Player target) {
                 if (delay == 0 || delay == -1) {

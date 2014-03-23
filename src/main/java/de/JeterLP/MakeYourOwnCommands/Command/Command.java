@@ -65,7 +65,7 @@ public class Command {
         }
 
         /**
-         * @return type: The Type of the Command. Returns null if the command is not valid.
+         * @return type: The {@link de.JeterLP.MakeYourOwnCommands.Command.CommandType} of the Command. Returns null if the command is not valid.
          */
         public CommandType getType() {
                 if (!valid) return null;
@@ -73,7 +73,7 @@ public class Command {
         }
 
         /**
-         * @return ITEM: The ItemStack for this command.
+         * @return ITEM: The {@link org.bukkit.inventory.ItemStack} for this command.
          * Returns null if the command is not valid, or the type is not ITEM.
          */
         public ItemStack getItem() {
@@ -135,11 +135,11 @@ public class Command {
         }
 
         /**
-         * @return TPLOC: The LocationHelper for the command if its a TELEPORT command.
+         * @return TPLOC: The {@link de.JeterLP.MakeYourOwnCommands.utils.LocationHelper} for the command if its a TELEPORT command.
          * Returns null if the command is not valid, or the type is not TELEPORT.
          */
         public LocationHelper getLocation() {
-                if (!valid || type != CommandType.TELEPORT) return null;
+                if (!valid || type != CommandType.TELEPORT) return null;               
                 return TPLOC;
         }
 
@@ -150,8 +150,8 @@ public class Command {
          * @param permNeeded: Should be checked if the player has the needed permission?
          * @param checkBlocked: Should be checked if the command is blocked in the world?
          * Executes the command.
-         * Does nothing if the command is not valid.  
-         * Executes a PlayerRunMyocCommandEvent.
+         * Does nothing if the command is not valid.
+         * Executes a {@link de.JeterLP.MakeYourOwnCommands.Events.PlayerRunMyocCommandEvent}.
          */
         public void execute(Player player, String[] args, String fullCMD, boolean permNeeded, boolean checkBlocked) {
                 if (!valid) return;

@@ -23,7 +23,8 @@ public class PlayerRunMyocCommandEvent extends PlayerEvent implements Cancellabl
 
         /**
          * Bukkit Method.
-         * @return handlers 
+         *
+         * @return handlers
          */
         @Override
         public HandlerList getHandlers() {
@@ -32,14 +33,16 @@ public class PlayerRunMyocCommandEvent extends PlayerEvent implements Cancellabl
 
         /**
          * Bukkit Method.
-         * @return handlers 
+         *
+         * @return handlers
          */
         public static HandlerList getHandlerList() {
                 return handlers;
         }
 
         /**
-         * Gets the executed command.
+         * Gets the executed {@link de.JeterLP.MakeYourOwnCommands.Command.Command}.
+         *
          * @return cmd
          */
         public Command getCommand() {
@@ -47,8 +50,9 @@ public class PlayerRunMyocCommandEvent extends PlayerEvent implements Cancellabl
         }
 
         /**
-         * gets the CommandType of the executed command.
-         * @return CommandType 
+         * gets the {@link de.JeterLP.MakeYourOwnCommands.Command.CommandType} of the executed command.
+         *
+         * @return CommandType
          */
         public CommandType getType() {
                 return cmd.getType();
@@ -56,6 +60,7 @@ public class PlayerRunMyocCommandEvent extends PlayerEvent implements Cancellabl
 
         /**
          * Checks if the event was cancelled.
+         *
          * @return cancelled
          */
         @Override
@@ -65,7 +70,8 @@ public class PlayerRunMyocCommandEvent extends PlayerEvent implements Cancellabl
 
         /**
          * Changes the status of the event. If bln is true, the event will not be executed.
-         * @param bln: Sets cancelled to bln 
+         *
+         * @param bln: Sets cancelled to bln
          */
         @Override
         public void setCancelled(boolean bln) {

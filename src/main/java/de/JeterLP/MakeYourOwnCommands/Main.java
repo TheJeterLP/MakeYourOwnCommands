@@ -55,7 +55,8 @@ public class Main extends JavaPlugin {
 
         /**
          * You can access the Main class using this method.
-         * @return INSTANCE: The current instance of the Main class. 
+         *
+         * @return INSTANCE: The current instance of the Main class.
          */
         public static Main getInstance() {
                 return INSTANCE;
@@ -82,7 +83,8 @@ public class Main extends JavaPlugin {
 
         /**
          * Gets the configuration
-         * @return cfg 
+         *
+         * @return cfg
          */
         @Override
         public YamlConfiguration getConfig() {

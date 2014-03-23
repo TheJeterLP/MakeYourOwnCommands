@@ -13,7 +13,8 @@ public final class CommandListener implements Listener {
 
         /**
          * Method to execute the Commands.
-         * @param event 
+         *
+         * @param event
          */
         @EventHandler(ignoreCancelled = true)
         public void onCommand(final PlayerCommandPreprocessEvent event) {

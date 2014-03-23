@@ -18,7 +18,8 @@ public enum CommandType {
 
         /**
          * Returns all possible names for the Type in the config.
-         * @return configValue 
+         *
+         * @return configValue
          */
         public String[] getConfigValues() {
                 return configValues;
@@ -26,6 +27,7 @@ public enum CommandType {
 
         /**
          * Checks if the given value is used for the CommandType.
+         *
          * @param value: The value to check.
          * @return true: if it's used from the CommandType.
          */
@@ -42,8 +44,9 @@ public enum CommandType {
 
         /**
          * Checks if the given value is a valid CommandType.
+         *
          * @param value: The value to check.
-         * @return true: If the given value is valid. 
+         * @return true: If the given value is valid.
          */
         public static boolean isValid(String value) {
                 boolean found = false;
@@ -61,8 +64,9 @@ public enum CommandType {
 
         /**
          * Searches for a CommandType which uses the given name as a value.
+         *
          * @param name: The value to search for
-         * @return CommandType 
+         * @return CommandType
          * Returns null if no possible CommandType was found.
          */
         public static CommandType getByName(String name) {

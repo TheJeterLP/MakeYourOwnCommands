@@ -37,8 +37,9 @@ public class CommandManager {
         }
 
         /**
-         *Gets all loaded commands.
-         * @return All loaded commands. 
+         * Gets all loaded commands.
+         *
+         * @return All loaded commands.
          */
         public static Collection<Command> getCommands() {
                 return commands.values();
@@ -46,8 +47,9 @@ public class CommandManager {
 
         /**
          * Returns the given Command by the name. Has to start with /
+         *
          * @param name: The CommandName
-         * @return Command: The given command. 
+         * @return Command: The given command.
          * Returns null if the command is not existing.
          */
         public static Command getCommand(String name) {
@@ -56,8 +58,9 @@ public class CommandManager {
 
         /**
          * Checks if the command is handled from MakeYourOwnCommands.
+         *
          * @param command: The name of the command. Has to start with a /
-         * @return true: If the command is handled by MakeYourOwnCommands 
+         * @return true: If the command is handled by MakeYourOwnCommands
          */
         public static boolean isRegistered(String command) {
                 return commands.containsKey(command.toLowerCase());
@@ -65,6 +68,7 @@ public class CommandManager {
 
         /**
          * Replaces all possible values in the message.
+         *
          * @param message: Used for the values.
          * @param player: Used for the values.
          * @param args: Used for the values.
@@ -85,10 +89,11 @@ public class CommandManager {
                         }
                 }
                 message = message.replace("%online", names);
-                int length = args.length + 1;
-                for (int i = 1; i < length; i++) {
-                        String arg = args[i - 1];
-                        message = message.replaceAll("%arg" + i, arg);
+                int length = args.length;
+                for (int i = 0; i < length; i++) {
+                        String arg = args[i];
+                        int rep = i + 1;
+                        message = message.replaceAll("%arg" + rep, arg);
                 }
                 message = replaceColors(message);
                 return message;
@@ -96,6 +101,7 @@ public class CommandManager {
 
         /**
          * Returns the noPermission message specified in the config.
+         *
          * @param player: Used to replace the %player% value.
          * @return msg: The noPermission message.
          */
@@ -108,6 +114,7 @@ public class CommandManager {
 
         /**
          * Checks if the command is blocked in the given world.
+         *
          * @param command: The command which should be checked.
          * @param world: Ther world where the command may be blocked:
          * @return true: If the command is blocked in the given world.
@@ -119,6 +126,7 @@ public class CommandManager {
 
         /**
          * Gets the commandIsBlocked Message specified in the config.
+         *
          * @param player: Used to replace the %player% value.
          * @param world: Used to replace the %world% value.
          * @param command: Used to repalce the %cmd% value.
@@ -135,8 +143,9 @@ public class CommandManager {
 
         /**
          * Replaces all color codes starting with &.
+         *
          * @param s: The String where the colors should be replaced.
-         * @return s: with all colors replaced. 
+         * @return s: with all colors replaced.
          */
         public static String replaceColors(String s) {
                 return s.replaceAll("&((?i)[0-9a-fk-or])", "§$1");

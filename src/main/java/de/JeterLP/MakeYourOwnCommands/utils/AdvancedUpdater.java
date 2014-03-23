@@ -55,6 +55,7 @@ public class AdvancedUpdater {
 
         /**
          * Used to check if the last version fromk BukkitDev is higher than the current.
+         *
          * @param title
          * @return true: If the version on BukkitDev is higher.
          */
@@ -70,6 +71,7 @@ public class AdvancedUpdater {
 
         /**
          * Reads all version out of Bukkits update-system.
+         *
          * @return true: if the check was successfully.
          */
         private boolean read() {
@@ -92,6 +94,7 @@ public class AdvancedUpdater {
 
         /**
          * Checks if the UpdateChecker is enabled by the given config value in the constructor.
+         *
          * @return true: if its enabled.
          */
         private boolean isEnabled() {
