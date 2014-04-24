@@ -1,2 +1,2 @@
-MakeYourOwnCommands [![Build Status](https://travis-ci.org/TheJeterLP/MakeYourOwnCommandsNew.png?branch=master)](https://travis-ci.org/TheJeterLP/MakeYourOwnCommandsNew)
+MakeYourOwnCommands [![Build Status](https://travis-ci.org/TheJeterLP/MakeYourOwnCommands.png?branch=master)](https://travis-ci.org/TheJeterLP/MakeYourOwnCommands)
 ================================
