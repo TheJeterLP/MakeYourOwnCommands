@@ -7,88 +7,87 @@ import de.JeterLP.MakeYourOwnCommands.utils.*;
 import java.io.File;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.mcstats.Metrics;
+//import org.mcstats.Metrics;
 
 public class Main extends JavaPlugin {
 
-        private static Main INSTANCE;
-        private YamlConfiguration cfg;
+    private static Main INSTANCE;
+    private YamlConfiguration cfg;
 
-        /**
-         * Loads the plugin.
-         */
-        @Override
-        public void onEnable() {
-                try {
-                        getLogger().info("(by JeterLP Version: " + getDescription().getVersion() + ") loading...");
-                        INSTANCE = this;
-                        loadConfig();
-                        new AdvancedUpdater(this, 54353, "http://dev.bukkit.org/bukkit-plugins/simple-info2/", "SearchForUpdates").search();
-                        new Metrics(this).start();
-                        CommandManager.init();
-                        getCommand("myoc").setExecutor(new MyocCommand());
-                        getServer().getPluginManager().registerEvents(new CommandListener(), this);
-                        getLogger().info("(by JeterLP Version: " + getDescription().getVersion() + ") is now enabled.");
-                } catch (Exception ex) {
-                        ex.printStackTrace();
-                }
-
+    /**
+     * Loads the plugin.
+     */
+    @Override
+    public void onEnable() {
+        try {
+            getLogger().info("(by JeterLP Version: " + getDescription().getVersion() + ") loading...");
+            INSTANCE = this;
+            loadConfig();
+            new AdvancedUpdater(this, 54353, "http://dev.bukkit.org/bukkit-plugins/simple-info2/", "SearchForUpdates").search();
+            new Metrics(this).start();
+            CommandManager.init();
+            getCommand("myoc").setExecutor(new MyocCommand());
+            getServer().getPluginManager().registerEvents(new CommandListener(), this);
+            getLogger().info("(by JeterLP Version: " + getDescription().getVersion() + ") is now enabled.");
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
 
-        /**
-         * Disables the plugin.
-         */
-        @Override
-        public void onDisable() {
-                getServer().getScheduler().cancelTasks(this);
-                getLogger().info("(by JeterLP Version: " + getDescription().getVersion() + ") is now disabled.");
-        }
+    }
 
-        /**
-         * @return Old CommandUtils
-         * @deprecated Use CommandManager class
-         */
-        @Deprecated
-        public static CommandUtils getUtils() {
-                return new CommandUtils();
-        }
+    /**
+     * Disables the plugin.
+     */
+    @Override
+    public void onDisable() {
+        getServer().getScheduler().cancelTasks(this);
+        getLogger().info("(by JeterLP Version: " + getDescription().getVersion() + ") is now disabled.");
+    }
 
-        /**
-         * You can access the Main class using this method.
-         *
-         * @return INSTANCE: The current instance of the Main class.
-         */
-        public static Main getInstance() {
-                return INSTANCE;
-        }
+    /**
+     * @return Old CommandUtils
+     * @deprecated Use CommandManager class
+     */
+    @Deprecated
+    public static CommandUtils getUtils() {
+        return new CommandUtils();
+    }
 
-        /**
-         * Loads the configuration.
-         */
-        private void loadConfig() {
-                Main.getInstance().getDataFolder().mkdirs();
-                File cfgFile = new File(Main.getInstance().getDataFolder(), "config.yml");
-                cfg = YamlConfiguration.loadConfiguration(cfgFile);
-                if (cfgFile.exists()) {
-                        if (cfg.getInt("Version") != 1) {
-                                cfgFile.renameTo(new File(Main.getInstance().getDataFolder(), "config_old.yml"));
-                                saveResource("config.yml", false);
-                        }
-                } else {
-                        saveResource("config.yml", false);
-                }
-                cfg = YamlConfiguration.loadConfiguration(cfgFile);
-                getConfig().options().copyDefaults(true);
-        }
+    /**
+     * You can access the Main class using this method.
+     *
+     * @return INSTANCE: The current instance of the Main class.
+     */
+    public static Main getInstance() {
+        return INSTANCE;
+    }
 
-        /**
-         * Gets the configuration
-         *
-         * @return cfg
-         */
-        @Override
-        public YamlConfiguration getConfig() {
-                return cfg;
+    /**
+     * Loads the configuration.
+     */
+    private void loadConfig() {
+        Main.getInstance().getDataFolder().mkdirs();
+        File cfgFile = new File(Main.getInstance().getDataFolder(), "config.yml");
+        cfg = YamlConfiguration.loadConfiguration(cfgFile);
+        if (cfgFile.exists()) {
+            if (cfg.getInt("Version") != 1) {
+                cfgFile.renameTo(new File(Main.getInstance().getDataFolder(), "config_old.yml"));
+                saveResource("config.yml", false);
+            }
+        } else {
+            saveResource("config.yml", false);
         }
+        cfg = YamlConfiguration.loadConfiguration(cfgFile);
+    }
+
+    /**
+     * Gets the configuration
+     *
+     * @return cfg
+     */
+    @Override
+    public YamlConfiguration getConfig() {
+        return cfg;
+    }
 
 }

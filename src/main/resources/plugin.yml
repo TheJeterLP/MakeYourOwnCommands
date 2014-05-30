@@ -1,4 +1,4 @@
-name: MakeYourOwnCommands
+name: ${project.artifactId}
 version: ${project.version}
 description: Make your own commands without learn how to programm
 author: TheJeterLP
