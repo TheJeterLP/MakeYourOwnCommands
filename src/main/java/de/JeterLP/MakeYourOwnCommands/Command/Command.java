@@ -147,14 +147,13 @@ public class Command {
     /**
      * @param player: The player who is executing the command.
      * @param args: Used for the messages.
-     * @param fullCMD: Used to log the command.
      * @param permNeeded: Should be checked if the player has the needed permission?
      * @param checkBlocked: Should be checked if the command is blocked in the world?
      * Executes the command.
      * Does nothing if the command is not valid.
      * Executes a {@link de.JeterLP.MakeYourOwnCommands.Events.PlayerRunMyocCommandEvent}.
      */
-    public void execute(Player player, String[] args, String fullCMD, boolean permNeeded, boolean checkBlocked) {
+    public void execute(Player player, String[] args, boolean permNeeded, boolean checkBlocked) {
         if (!valid) return;
         String noperm = CommandManager.getNoPermissionMessage(player);
 
@@ -176,6 +175,11 @@ public class Command {
         PlayerRunMyocCommandEvent event = new PlayerRunMyocCommandEvent(player, this);
         Main.getInstance().getServer().getPluginManager().callEvent(event);
         if (event.isCancelled()) return;
+
+        String fullCMD = this.command + (args.length > 0 ? " " : "");
+        for (String arg : args) {
+            fullCMD += arg + " ";
+        }
 
         Bukkit.getLogger().info(player.getName() + " issued server command: " + fullCMD);
 

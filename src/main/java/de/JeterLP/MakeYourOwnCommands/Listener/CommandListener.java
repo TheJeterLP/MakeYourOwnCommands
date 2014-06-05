@@ -27,14 +27,13 @@ public final class CommandListener implements Listener {
 
         String arg = "";
 
-        for (String s : event.getMessage().split(" ")) {
-            if (s.equals(command)) continue;
-            arg += s + ";";
+        for (int i = 1; i < event.getMessage().split(" ").length; i++) {
+            arg += event.getMessage().split(" ")[i] + ";";
         }
-              
+
         final String[] args = arg.split(";");
 
-        CommandManager.getCommand(command).execute(player, args, event.getMessage(), true, true);
+        CommandManager.getCommand(command).execute(player, args, true, true);
         event.setCancelled(true);
     }
 }
