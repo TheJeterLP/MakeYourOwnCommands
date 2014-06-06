@@ -34,7 +34,6 @@ public class MyocCommand implements CommandExecutor {
             Bukkit.getServer().getPluginManager().enablePlugin(Main.getInstance());
             sender.sendMessage("§aSuccesfully reloaded!");
             return true;
-
         } else if (args[0].equalsIgnoreCase("list")) {
             if (!sender.hasPermission("myoc.list")) {
                 sender.sendMessage("§4You dont have permission!");

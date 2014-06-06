@@ -4,7 +4,7 @@
   <groupId>de.JeterLP</groupId>
   <artifactId>MakeYourOwnCommands</artifactId>
   <name>MakeYourOwnCommands</name>
-  <version>2.0.0.1-SNAPSHOT</version>
+  <version>1.9.9-SNAPSHOT</version>
   <inceptionYear>2013</inceptionYear>
   <scm>
     <connection>scm:git:git@github.com:TheJeterLP/MakeYourOwnCommands.git</connection>
@@ -34,18 +34,8 @@
     <finalName>${project.name}</finalName>
     <plugins>
       <plugin>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.1</version>
-        <configuration>
-          <optimize>true</optimize>
-          <source>1.7</source>
-          <target>1.7</target>
-        </configuration>
-      </plugin>
-      <plugin>
         <artifactId>maven-javadoc-plugin</artifactId>
         <version>2.9.1</version>
-        <configuration />
       </plugin>
       <plugin>
         <artifactId>maven-shade-plugin</artifactId>
@@ -99,7 +89,9 @@
   </distributionManagement>
   <properties>
     <config.version>1</config.version>
+    <maven.compiler.source>1.7</maven.compiler.source>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.target>1.7</maven.compiler.target>
   </properties>
 </project>
 

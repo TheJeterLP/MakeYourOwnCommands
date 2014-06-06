@@ -4,6 +4,7 @@ import de.JeterLP.MakeYourOwnCommands.Command.CommandManager;
 import de.JeterLP.MakeYourOwnCommands.Listener.CommandListener;
 import de.JeterLP.MakeYourOwnCommands.utils.*;
 import de.JeterLP.MakeYourOwnCommands.utils.CommandUtils;
+import de.thejeterlp.bukkit.updater.ReleaseType;
 import de.thejeterlp.bukkit.updater.UpdateType;
 import de.thejeterlp.bukkit.updater.Updater;
 import java.io.File;
@@ -25,7 +26,7 @@ public class Main extends JavaPlugin {
             getLogger().info("(by JeterLP Version: " + getDescription().getVersion() + ") loading...");
             INSTANCE = this;
             loadConfig();
-            new Updater(this, 54353, "simple-info2", getConfig().getBoolean("SearchForUpdates", false), UpdateType.DOWNLOAD).search();
+            new Updater(this, 54353, "simple-info2", getConfig().getBoolean("SearchForUpdates", false), UpdateType.DOWNLOAD, ReleaseType.RELEASE).search();
             new Metrics(this).start();
             CommandManager.init();
             getCommand("myoc").setExecutor(new MyocCommand());
