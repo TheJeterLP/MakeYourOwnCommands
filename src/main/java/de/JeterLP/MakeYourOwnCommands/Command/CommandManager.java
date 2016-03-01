@@ -1,14 +1,15 @@
 package de.JeterLP.MakeYourOwnCommands.Command;
 
 import de.JeterLP.MakeYourOwnCommands.Main;
+import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
+
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Player;
 
 /**
  * @author TheJeterLP
@@ -77,7 +78,7 @@ public class CommandManager {
     public static String replaceValues(String message, Player player, String[] args) {
         message = message.replaceAll("%sender%", player.getName())
                 .replaceAll("%realtime%", format.format(new Date()))
-                .replaceAll("%onlineplayers%", String.valueOf(Bukkit.getOnlinePlayers().length))
+                .replaceAll("%onlineplayers%", String.valueOf(Bukkit.getOnlinePlayers().size()))
                 .replaceAll("%world%", player.getWorld().getName())
                 .replace("%cmd%", message);
         String names = "";

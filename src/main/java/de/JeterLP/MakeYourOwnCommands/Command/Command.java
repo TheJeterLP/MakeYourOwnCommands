@@ -3,14 +3,14 @@ package de.JeterLP.MakeYourOwnCommands.Command;
 import de.JeterLP.MakeYourOwnCommands.Events.PlayerRunMyocCommandEvent;
 import de.JeterLP.MakeYourOwnCommands.Main;
 import de.JeterLP.MakeYourOwnCommands.utils.LocationHelper;
-import java.util.Collections;
-import java.util.List;
-import javax.annotation.Nonnull;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.Collections;
+import java.util.List;
 
 /**
  * @author TheJeterLP
@@ -85,7 +85,6 @@ public class Command {
     /**
      * @return valid: If the command was successfully initialized.
      */
-    @Nonnull
     public boolean isValid() {
         return valid;
     }
