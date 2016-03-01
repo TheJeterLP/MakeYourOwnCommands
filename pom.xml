@@ -79,11 +79,15 @@
     </build>
     
     <repositories>
+
+        <!-- Spigot and Bukkit API repository -->
         <repository>
-            <id>bukkit repo</id>
-            <url>http://repo.bukkit.org/content/groups/public</url>
-        </repository>  
+            <id>spigot-repo</id>
+            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+        </repository>
+
         <repository>
+
             <id>myoc-repo</id>
             <url>http://jeterlp.admincmd.com/maven-repo/</url>
         </repository>      
@@ -93,7 +97,7 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.8.8-R0.1-SNAPSHOT</version>
+            <version>1.9-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
 
@@ -101,7 +105,7 @@
         <dependency>
             <groupId>org.bukkit</groupId>
             <artifactId>bukkit</artifactId>
-            <version>1.8.8-R0.1-SNAPSHOT</version>
+            <version>1.9-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         
