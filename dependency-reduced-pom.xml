@@ -4,7 +4,7 @@
   <groupId>de.JeterLP</groupId>
   <artifactId>MakeYourOwnCommands</artifactId>
   <name>MakeYourOwnCommands</name>
-  <version>2.0.1</version>
+  <version>2.1</version>
   <inceptionYear>2013</inceptionYear>
   <scm>
     <connection>scm:git:git@github.com:TheJeterLP/MakeYourOwnCommands.git</connection>
@@ -61,31 +61,89 @@
   </build>
   <repositories>
     <repository>
-      <id>bukkit repo</id>
-      <url>http://repo.bukkit.org/content/groups/public</url>
+      <id>spigot-repo</id>
+      <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
     </repository>
     <repository>
-      <id>myoc-repo</id>
-      <url>http://jeterlp.admincmd.com/maven-repo/</url>
+      <id>AdminCMDRepo.read</id>
+      <url>${AdminCMDRepo.read.url}</url>
     </repository>
   </repositories>
   <dependencies>
     <dependency>
+      <groupId>org.spigotmc</groupId>
+      <artifactId>spigot-api</artifactId>
+      <version>1.9-R0.1-SNAPSHOT</version>
+      <scope>provided</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>commons-lang</artifactId>
+          <groupId>commons-lang</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>json-simple</artifactId>
+          <groupId>com.googlecode.json-simple</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>guava</artifactId>
+          <groupId>com.google.guava</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>gson</artifactId>
+          <groupId>com.google.code.gson</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>ebean</artifactId>
+          <groupId>org.avaje</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>snakeyaml</artifactId>
+          <groupId>org.yaml</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>bungeecord-chat</artifactId>
+          <groupId>net.md-5</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
       <groupId>org.bukkit</groupId>
-      <artifactId>craftbukkit</artifactId>
-      <version>1.7.5-R0.1-SNAPSHOT</version>
-      <scope>compile</scope>
+      <artifactId>bukkit</artifactId>
+      <version>1.9-R0.1-SNAPSHOT</version>
+      <scope>provided</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>commons-lang</artifactId>
+          <groupId>commons-lang</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>json-simple</artifactId>
+          <groupId>com.googlecode.json-simple</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>guava</artifactId>
+          <groupId>com.google.guava</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>gson</artifactId>
+          <groupId>com.google.code.gson</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>ebean</artifactId>
+          <groupId>org.avaje</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>snakeyaml</artifactId>
+          <groupId>org.yaml</groupId>
+        </exclusion>
+      </exclusions>
     </dependency>
   </dependencies>
   <distributionManagement>
     <repository>
-      <id>plugin-releases</id>
-      <url>ftp://admincmd.com/web/maven-repo/</url>
+      <id>AdminCMDRepo.write</id>
+      <url>${AdminCMDRepo.write.url}</url>
     </repository>
-    <snapshotRepository>
-      <id>plugin-snapshots</id>
-      <url>ftp://admincmd.com/web/maven-repo/</url>
-    </snapshotRepository>
   </distributionManagement>
   <properties>
     <config.version>1</config.version>

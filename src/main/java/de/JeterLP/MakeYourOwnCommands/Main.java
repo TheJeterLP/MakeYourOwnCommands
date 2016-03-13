@@ -8,7 +8,6 @@ import de.thejeterlp.bukkit.updater.Updater;
 import java.io.File;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
-//import org.mcstats.Metrics;
 
 public class Main extends JavaPlugin {
 
