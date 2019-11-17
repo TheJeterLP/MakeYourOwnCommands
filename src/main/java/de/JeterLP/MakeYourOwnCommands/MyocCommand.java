@@ -23,7 +23,9 @@ public class MyocCommand implements CommandExecutor {
      */
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String commandlabel, String[] args) {
-        if (args.length != 1) return false;
+        if (args.length != 1) {
+            return false;
+        }
 
         if (args[0].equalsIgnoreCase("reload")) {
             if (!sender.hasPermission("myoc.reload")) {
@@ -32,6 +34,8 @@ public class MyocCommand implements CommandExecutor {
             }
             Bukkit.getServer().getPluginManager().disablePlugin(Main.getInstance());
             Bukkit.getServer().getPluginManager().enablePlugin(Main.getInstance());
+            Main.getInstance().loadConfig();
+            CommandManager.init();
             sender.sendMessage("§aSuccesfully reloaded!");
             return true;
         } else if (args[0].equalsIgnoreCase("list")) {

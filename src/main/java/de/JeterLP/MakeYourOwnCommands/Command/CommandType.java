@@ -62,8 +62,7 @@ public enum CommandType {
      * Searches for a CommandType which uses the given name as a value.
      *
      * @param name: The value to search for
-     * @return CommandType
-     * Returns null if no possible CommandType was found.
+     * @return CommandType Returns null if no possible CommandType was found.
      */
     public static CommandType getByName(String name) {
         for (CommandType type : values()) {

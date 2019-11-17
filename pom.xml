@@ -4,8 +4,8 @@
     <groupId>de.JeterLP</groupId>
     <artifactId>MakeYourOwnCommands</artifactId>
     <name>MakeYourOwnCommands</name>
-    <inceptionYear>2013</inceptionYear>
-    <version>2.1</version>
+    <inceptionYear>2019</inceptionYear>
+    <version>3.0</version>
     
     <scm>
         <connection>scm:git:git@github.com:TheJeterLP/MakeYourOwnCommands.git</connection>
@@ -15,52 +15,20 @@
     
     <distributionManagement>
         <repository>
-            <id>AdminCMDRepo.write</id>
-            <url>${AdminCMDRepo.write.url}</url> 
+            <id>jeter-repo</id>
+            <url>http://jeter.de:8081/repository/releases/</url>
         </repository>
+        <snapshotRepository>
+            <id>jeter-repo</id>
+            <url>http://jeter.de:8081/repository/snapshots/</url>
+        </snapshotRepository>
     </distributionManagement>
     
     <build>
         <defaultGoal>clean install</defaultGoal>
         <finalName>${project.name}</finalName>
-        <sourceDirectory>${basedir}/src/main/java/</sourceDirectory>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.9.1</version>
-            </plugin> 
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>2.1</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                        <configuration>
-                            <minimizeJar>false</minimizeJar>
-                            <artifactSet>
-                                <includes>
-                                    <include>de.TheJeterLP.Bukkit:Updater</include>
-                                </includes>
-                            </artifactSet>                           
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>          
-        </plugins>
-        
-        <extensions>
-            <extension>
-                <groupId>org.apache.maven.wagon</groupId>
-                <artifactId>wagon-ftp</artifactId>
-                <version>1.0-alpha-6</version>
-            </extension>
-        </extensions>
-        
+        <sourceDirectory>${basedir}/src/main/java/</sourceDirectory>       
+              
         <resources>
             <resource>
                 <targetPath>.</targetPath>
@@ -74,38 +42,27 @@
     </build>
     
     <repositories>
-
-        <!-- Spigot repository -->
         <repository>
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
-        </repository>
-
+        </repository> 
         <repository>
-            <id>AdminCMDRepo.read</id>
-            <url>https://mymavenrepo.com/repo/Dn0x5WN5HvP6PyylqIxn/</url>
-        </repository>   
+            <id>jeter-repo</id>
+            <url>http://nexus.jeter.de/repository/releases/</url>
+        </repository>  
     </repositories>
+    
     <dependencies>
-        <!--Spigot API-->
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.9-R0.1-SNAPSHOT</version>
+            <version>1.14.4-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
-        </dependency>
-        
-        <dependency>
-            <groupId>de.TheJeterLP.Bukkit</groupId>
-            <artifactId>Updater</artifactId>
-            <version>1.1.1</version>
-            <scope>compile</scope>
         </dependency>
     </dependencies>
     
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <config.version>1</config.version>
         <maven.compiler.source>1.7</maven.compiler.source>
         <maven.compiler.target>1.7</maven.compiler.target>
     </properties>

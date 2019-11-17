@@ -7,11 +7,6 @@
 ######################################################################
 
 
-#Do not change
-Version: ${config.version}
-
-SearchForUpdates: true
-
 NoPermissionMessage: '&cSorry, %player%, you dont have permission to do this.'
 CommandIsBlocked: '&cSorry, %player%, the command %cmd% is blocked in %world%.'
 
@@ -24,7 +19,7 @@ Commands:
     messages: 
     - '&cTeleporting to coords...'
     - '&ePlease wait for the timer...'
-    #use -1 or 0 for no timer
+    #use 0 for no delay
     delay: 3
     permission: 'myoc.tptest'
     world: 'world'
@@ -46,8 +41,10 @@ Commands:
     permission: 'myoc.alias'
     sendTo: 'sender'
     messages: 
-    - '&cExecuting /say I am a test'
-    execute: '/say I am a test!'
+    - '&cExecuting multiple commands...'
+    execute: 
+    - 'say I am a test!'
+    - 'say I am a test 2!'
     
   /items:
     mode: 'item'
@@ -56,11 +53,11 @@ Commands:
     messages:
     - 'item'
     Item:
-      Material: 35
+      Material: DIRT
       Amount: 7
     
 BlockedWorlds:
-    world:
+    testworld:
     - '/alias'
     - '/msgtest'
     

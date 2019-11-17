@@ -27,13 +27,16 @@ public class CommandManager {
     }
 
     /**
-     * Initiates the CommandManager and loads all commands from the configuration.
+     * Initiates the CommandManager and loads all commands from the
+     * configuration.
      */
     public static void init() {
         commands.clear();
         for (String command : Main.getInstance().getConfig().getConfigurationSection("Commands").getKeys(false)) {
             Command cmd = new Command(command);
-            if (cmd.isValid()) commands.put(command.toLowerCase(), cmd);
+            if (cmd.isValid()) {
+                commands.put(command.toLowerCase(), cmd);
+            }
         }
     }
 
@@ -50,8 +53,8 @@ public class CommandManager {
      * Returns the given Command by the name. Has to start with /
      *
      * @param name: The CommandName
-     * @return Command: The given command.
-     * Returns null if the command is not existing.
+     * @return Command: The given command. Returns null if the command is not
+     * existing.
      */
     public static Command getCommand(String name) {
         return commands.get(name.toLowerCase());

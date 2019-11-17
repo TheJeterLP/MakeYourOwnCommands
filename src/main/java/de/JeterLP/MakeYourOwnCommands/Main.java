@@ -2,9 +2,6 @@ package de.JeterLP.MakeYourOwnCommands;
 
 import de.JeterLP.MakeYourOwnCommands.Command.CommandManager;
 import de.JeterLP.MakeYourOwnCommands.Listener.CommandListener;
-import de.JeterLP.MakeYourOwnCommands.utils.CommandUtils;
-import de.JeterLP.MakeYourOwnCommands.utils.Metrics;
-import de.thejeterlp.bukkit.updater.Updater;
 import java.io.File;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -23,9 +20,6 @@ public class Main extends JavaPlugin {
             getLogger().info("(by JeterLP Version: " + getDescription().getVersion() + ") loading...");
             INSTANCE = this;
             loadConfig();
-            Updater u = new Updater(this, 54353, "simple-info2");
-            u.search();
-            new Metrics(this).start();
             CommandManager.init();
             getCommand("myoc").setExecutor(new MyocCommand());
             getServer().getPluginManager().registerEvents(new CommandListener(), this);
@@ -45,15 +39,6 @@ public class Main extends JavaPlugin {
     }
 
     /**
-     * @return Old CommandUtils
-     * @deprecated Use CommandManager class
-     */
-    @Deprecated
-    public static CommandUtils getUtils() {
-        return new CommandUtils();
-    }
-
-    /**
      * You can access the Main class using this method.
      *
      * @return INSTANCE: The current instance of the Main class.
@@ -65,16 +50,11 @@ public class Main extends JavaPlugin {
     /**
      * Loads the configuration.
      */
-    private void loadConfig() {
+    protected void loadConfig() {
         Main.getInstance().getDataFolder().mkdirs();
         File cfgFile = new File(Main.getInstance().getDataFolder(), "config.yml");
         cfg = YamlConfiguration.loadConfiguration(cfgFile);
-        if (cfgFile.exists()) {
-            if (cfg.getInt("Version") != 1) {
-                cfgFile.renameTo(new File(Main.getInstance().getDataFolder(), "config_old.yml"));
-                saveResource("config.yml", false);
-            }
-        } else {
+        if (!cfgFile.exists()) {
             saveResource("config.yml", false);
         }
         cfg = YamlConfiguration.loadConfiguration(cfgFile);

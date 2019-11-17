@@ -1,8 +1,8 @@
 package de.JeterLP.MakeYourOwnCommands.Command;
 
-import de.JeterLP.MakeYourOwnCommands.Events.PlayerRunMyocCommandEvent;
 import de.JeterLP.MakeYourOwnCommands.Main;
 import de.JeterLP.MakeYourOwnCommands.utils.LocationHelper;
+import java.util.ArrayList;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -22,7 +22,7 @@ public class Command {
     private String permission, sendTo;
     private List<String> messages;
     private LocationHelper TPLOC = null;
-    private String EXECUTE = null;
+    private List<String> EXECUTE = null;
     private ItemStack ITEM = null;
 
     private final boolean valid;
@@ -37,7 +37,7 @@ public class Command {
             sendTo = cfg.getString("Commands." + commandName + ".sendTo");
             messages = cfg.getStringList("Commands." + commandName + ".messages");
             if (type == CommandType.ALIAS) {
-                EXECUTE = cfg.getString("Commands." + commandName + ".execute");
+                EXECUTE = (ArrayList<String>) cfg.getList("Commands." + commandName + ".execute");
             } else if (type == CommandType.TELEPORT) {
                 String world = cfg.getString("Commands." + commandName + ".world");
                 int x = cfg.getInt("Commands." + commandName + ".x");
@@ -51,7 +51,7 @@ public class Command {
                 Material mat = null;
                 String item = cfg.getString("Commands." + commandName + ".Item.Material");
                 try {
-                    mat = Material.getMaterial(Integer.valueOf(item));
+                    mat = Material.getMaterial(item);
                 } catch (NumberFormatException ex) {
                     mat = Material.valueOf(item);
                 }
@@ -66,19 +66,26 @@ public class Command {
     }
 
     /**
-     * @return type: The {@link de.JeterLP.MakeYourOwnCommands.Command.CommandType} of the Command. Returns null if the command is not valid.
+     * @return type: The
+     * {@link de.JeterLP.MakeYourOwnCommands.Command.CommandType} of the
+     * Command. Returns null if the command is not valid.
      */
     public CommandType getType() {
-        if (!valid) return null;
+        if (!valid) {
+            return null;
+        }
         return type;
     }
 
     /**
-     * @return ITEM: The {@link org.bukkit.inventory.ItemStack} for this command.
-     * Returns null if the command is not valid, or the type is not ITEM.
+     * @return ITEM: The {@link org.bukkit.inventory.ItemStack} for this
+     * command. Returns null if the command is not valid, or the type is not
+     * ITEM.
      */
     public ItemStack getItem() {
-        if (!valid || type != CommandType.ITEM) return null;
+        if (!valid || type != CommandType.ITEM) {
+            return null;
+        }
         return ITEM;
     }
 
@@ -90,70 +97,88 @@ public class Command {
     }
 
     /**
-     * @return command: The command which is executed.
-     * Returns null if the command is not valid.
+     * @return command: The command which is executed. Returns null if the
+     * command is not valid.
      */
     public String getCommand() {
-        if (!valid) return null;
+        if (!valid) {
+            return null;
+        }
         return command;
     }
 
     /**
-     * @return permission: The permission needed to execute the command.
-     * Returns null if the command is not valid.
+     * @return permission: The permission needed to execute the command. Returns
+     * null if the command is not valid.
      */
     public String getPermission() {
-        if (!valid) return null;
+        if (!valid) {
+            return null;
+        }
         return permission;
     }
 
     /**
-     * @return sendTo: The SendTo for this command.
-     * Returns null if the command is not valid.
+     * @return sendTo: The SendTo for this command. Returns null if the command
+     * is not valid.
      */
     public String getSendTO() {
-        if (!valid) return null;
+        if (!valid) {
+            return null;
+        }
         return sendTo;
     }
 
     /**
-     * @return messages: The messages which should be sent to the executing player.
-     * Returns null if the command is not valid.
+     * @return messages: The messages which should be sent to the executing
+     * player. Returns null if the command is not valid.
      */
     public List<String> getMessages() {
-        if (!valid) return null;
+        if (!valid) {
+            return null;
+        }
         return Collections.unmodifiableList(messages);
     }
 
     /**
-     * @return EXECUTE: Returns the command which should be executed. if the command is an alias.
-     * Returns null if the command is not valid, or the type is not ALIAS.
+     * @return EXECUTE: Returns the command which should be executed. if the
+     * command is an alias. Returns null if the command is not valid, or the
+     * type is not ALIAS.
      */
-    public String getExecute() {
-        if (!valid || type != CommandType.ALIAS) return null;
+    public List<String> getExecute() {
+        if (!valid || type != CommandType.ALIAS) {
+            return null;
+        }
         return EXECUTE;
     }
 
     /**
-     * @return TPLOC: The {@link de.JeterLP.MakeYourOwnCommands.utils.LocationHelper} for the command if its a TELEPORT command.
-     * Returns null if the command is not valid, or the type is not TELEPORT.
+     * @return TPLOC: The
+     * {@link de.JeterLP.MakeYourOwnCommands.utils.LocationHelper} for the
+     * command if its a TELEPORT command. Returns null if the command is not
+     * valid, or the type is not TELEPORT.
      */
     public LocationHelper getLocation() {
-        if (!valid || type != CommandType.TELEPORT) return null;
+        if (!valid || type != CommandType.TELEPORT) {
+            return null;
+        }
         return TPLOC;
     }
 
     /**
      * @param player: The player who is executing the command.
      * @param args: Used for the messages.
-     * @param permNeeded: Should be checked if the player has the needed permission?
-     * @param checkBlocked: Should be checked if the command is blocked in the world?
-     * Executes the command.
-     * Does nothing if the command is not valid.
-     * Executes a {@link de.JeterLP.MakeYourOwnCommands.Events.PlayerRunMyocCommandEvent}.
+     * @param permNeeded: Should be checked if the player has the needed
+     * permission?
+     * @param checkBlocked: Should be checked if the command is blocked in the
+     * world? Executes the command. Does nothing if the command is not valid.
+     * Executes a
+     * {@link de.JeterLP.MakeYourOwnCommands.Events.PlayerRunMyocCommandEvent}.
      */
     public void execute(Player player, String[] args, boolean permNeeded, boolean checkBlocked) {
-        if (!valid) return;
+        if (!valid) {
+            return;
+        }
         String noperm = CommandManager.getNoPermissionMessage(player);
 
         if (permNeeded) {
@@ -171,10 +196,6 @@ public class Command {
             }
         }
 
-        PlayerRunMyocCommandEvent event = new PlayerRunMyocCommandEvent(player, this);
-        Main.getInstance().getServer().getPluginManager().callEvent(event);
-        if (event.isCancelled()) return;
-
         String fullCMD = this.command + (args.length > 0 ? " " : "");
         for (String arg : args) {
             fullCMD += arg + " ";
@@ -188,7 +209,10 @@ public class Command {
                 sendMessages(args, player);
                 break;
             case ALIAS:
-                player.performCommand(EXECUTE);
+                for (String s : EXECUTE) {
+                    player.performCommand(s);
+                }
+
                 sendMessages(args, player);
                 break;
             case MESSAGE:
@@ -204,8 +228,8 @@ public class Command {
 
     /**
      * @param args: The arguments given with the command.
-     * @param player: The Player who is executing the command.
-     * Sends all messages from the command to the executing Player.
+     * @param player: The Player who is executing the command. Sends all
+     * messages from the command to the executing Player.
      */
     public void sendMessages(String[] args, Player player) {
         switch (sendTo) {
